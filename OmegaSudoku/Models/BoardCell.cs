@@ -18,7 +18,7 @@ namespace OmegaSudoku.Models
             Row = row;
             Col = col;
             _possibleValues = new HashSet<int>();
-            if (IsEmpty())
+            if (value == 0)
                 InitializePossibilities(Boardsize); // adding all possible cell values
         }
         private void InitializePossibilities(int boardSize)
@@ -36,13 +36,15 @@ namespace OmegaSudoku.Models
             return _possibleValues.Count == 1 ? _possibleValues.First() : 0;
         }
 
-        public void SetValue(int newValue)
+        public void SetValue(int newValue, int boardSize)
         {
-            if (!IsEmpty())
+            if (newValue == 0 && !IsEmpty()) // removing a filled cell
+                InitializePossibilities(boardSize);
+            else if (newValue != 0) 
+            {
                 _possibleValues.Clear();
-            _possibleValues.Add(newValue);
-
-            // I will add here possibilities initlize after adding board size in constants class
+                _possibleValues.Add(newValue);
+            }
         }
 
         public void AddPossibility(int possibilityValue)

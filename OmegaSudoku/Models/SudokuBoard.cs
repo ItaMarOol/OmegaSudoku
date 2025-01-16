@@ -45,7 +45,7 @@ namespace OmegaSudoku.Models
             if (cell.GetValue() != 0 && value == 0) // removing a filled cell
                 _filledCellsCount--;  
 
-            cell.SetValue(value);
+            cell.SetValue(value, BoardSize);
         }
 
          
