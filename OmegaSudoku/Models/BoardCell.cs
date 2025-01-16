@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Models
 {
-    public class Cell
+    public class BoardCell
     {
         public int Row { get;}
         public int Col { get;}
@@ -14,7 +14,7 @@ namespace OmegaSudoku.Models
         private HashSet<int> PossibleValues { get; set; }
 
 
-        public Cell(int row, int col, int Boardsize, int value)
+        public BoardCell(int row, int col, int Boardsize, int value)
         {
             Row = row;
             Col = col;
