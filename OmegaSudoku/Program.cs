@@ -11,7 +11,8 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
         BoardFormatter boardFormatter = new BoardFormatter();
-        outputHandler.printBoard(inputHandler.GetInput());
+        //outputHandler.printBoard(inputHandler.GetInput());
+        inputHandler.IsInputValidSudoku("235235257a2350mgn25ho0980,");
 
 
     }
