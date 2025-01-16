@@ -1,14 +1,18 @@
-﻿using OmegaSudoku.Services.Input;
+﻿using OmegaSudoku.Models;
+using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
 
-internal class Program
+public class Program
 {
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         // temporary main for testing some classes
 
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
+        BoardFormatter boardFormatter = new BoardFormatter();
         outputHandler.printBoard(inputHandler.GetInput());
+
+
     }
 }

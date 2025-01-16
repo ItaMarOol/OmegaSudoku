@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OmegaSudoku.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,22 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Output
 {
-    internal class CliOutputHandler : IOutputHandler
+    public class CliOutputHandler : IOutputHandler
     {
-        public void printBoard(string board)
+        private readonly BoardFormatter _formatter;
+
+        public CliOutputHandler()
+        {
+            _formatter = new BoardFormatter();
+        }
+
+        public void PrintBoard(SudokuBoard board) 
+        {
+            string boardString = _formatter.ConvertBoardToString(board);
+            PrintBoard(boardString);
+        }
+
+        public void PrintBoard(string board)
         {
             int boardSize = (int)Math.Sqrt(board.Length);
             int blockLength = (int)Math.Sqrt(boardSize);

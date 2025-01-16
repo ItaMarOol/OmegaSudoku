@@ -8,7 +8,7 @@ namespace OmegaSudoku.Services.Output
 {
     public interface IOutputHandler
     {
-        void printBoard(string board);
+        void PrintBoard(string board);
         void PrintMessage(string message);  
         void PrintError (string error);
     }
