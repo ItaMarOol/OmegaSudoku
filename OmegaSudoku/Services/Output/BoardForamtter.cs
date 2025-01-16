@@ -9,6 +9,12 @@ namespace OmegaSudoku.Services.Output
 {
     public class BoardFormatter
     {
+
+        /// <summary>
+        /// Converts a given Sudoku board to a single long string representation.
+        /// </summary>
+        /// <param name="board">The Sudoku board to be converted.</param>
+        /// <returns>A single long string representing the board.</returns>
         public string ConvertBoardToString(SudokuBoard board)
         {
             StringBuilder boardString = new StringBuilder();
