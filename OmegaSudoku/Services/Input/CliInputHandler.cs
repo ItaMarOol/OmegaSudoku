@@ -10,9 +10,7 @@ namespace OmegaSudoku.Services.Input
     {
         public string GetInput()
         {
-            Console.WriteLine("Enter 9x9 sudoku board");
             String input = Console.ReadLine();
-
             return input;
         }
     }
