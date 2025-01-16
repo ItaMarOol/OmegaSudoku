@@ -8,58 +8,56 @@ namespace OmegaSudoku.Models
 {
     public class BoardCell
     {
-        public int Row { get;}
-        public int Col { get;}
-        private int Value { get; set; }
-        private HashSet<int> PossibleValues { get; set; }
+        public int Row { get; private set; }
+        public int Col { get; private set; }
+        private HashSet<int> _possibleValues { get; set; }
 
 
         public BoardCell(int row, int col, int Boardsize, int value)
         {
             Row = row;
             Col = col;
-            Value = value;
-            PossibleValues = new HashSet<int>();
+            _possibleValues = new HashSet<int>();
             if (IsEmpty())
                 InitializePossibilities(Boardsize); // adding all possible cell values
         }
         private void InitializePossibilities(int boardSize)
         {
-            PossibleValues.UnionWith(Enumerable.Range(1, boardSize));
+            _possibleValues.UnionWith(Enumerable.Range(1, boardSize));
         }
 
         public bool IsEmpty()
         {
-            return Value == 0;
+            return _possibleValues.Count > 1; // if the cell is empty there are more then 1 possible value
         }
 
         public int GetValue()
-        { 
-            return Value; 
+        {
+            return _possibleValues.Count == 1 ? _possibleValues.First() : 0;
         }
 
         public void SetValue(int newValue)
         {
-            Value = newValue;
             if (!IsEmpty())
-                PossibleValues.Clear();
+                _possibleValues.Clear();
+            _possibleValues.Add(newValue);
 
             // I will add here possibilities initlize after adding board size in constants class
         }
 
         public void AddPossibility(int possibilityValue)
         {
-            PossibleValues.Add(possibilityValue);
+            _possibleValues.Add(possibilityValue);
         }
 
         public void RemovePossibility(int possibilityValue)
         {
-            PossibleValues.Remove(possibilityValue);
+            _possibleValues.Remove(possibilityValue);
         }
 
         public int GetPossibilitesCount()
         { 
-            return PossibleValues.Count; 
+            return _possibleValues.Count; 
         }
 
     }
