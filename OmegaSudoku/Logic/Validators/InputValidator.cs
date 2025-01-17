@@ -28,7 +28,7 @@ namespace OmegaSudoku.Logic.Validators
             int index;
             for (index = 0; index < _input.Length; index++)
             {
-                int value = _input[index] - '0'; // converting char to int (by ascii values)
+                int value = _input[index] - Constants.AsciiDigitDiff; // converting char to int (by ascii values)
                 if (value < Constants.MinCellValue || value > Constants.MaxCellValue)
                 {
                     return false;
@@ -60,7 +60,7 @@ namespace OmegaSudoku.Logic.Validators
             List<char> invalid = new List<char>();
             for (index = 0; index < _input.Length; index++)
             {
-                int value = _input[index] - '0'; // converting char to int (by ascii values)
+                int value = _input[index] - Constants.AsciiDigitDiff; // converting char to int (by ascii values)
                 if (value != 0 && value < Constants.MinCellValue || value > Constants.MaxCellValue)
                 {
                     invalid.Add(_input[index]);

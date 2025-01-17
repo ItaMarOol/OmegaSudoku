@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OmegaSudoku.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,41 @@ namespace OmegaSudoku.Models
             }
         }
 
-        public Boolean IsBoardFull()
+        public SudokuBoard(int boardSize, string boardString)
+        {
+
+            BoardSize = boardSize;
+            _filledCellsCount = 0;
+            _board = new Dictionary<(int, int), BoardCell>();
+
+            int remainingCells = BoardSize * boardSize - boardString.Length;
+
+            // cells initialization
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    BoardCell boardCell;
+
+                    if (_filledCellsCount < boardString.Length)
+                    {
+                        int value = boardString[_filledCellsCount] - Constants.AsciiDigitDiff;
+                        boardCell = new BoardCell(row, col, BoardSize, value);
+
+                    }
+                    else
+                    {
+                        boardCell = new BoardCell(row, col, BoardSize, 0);
+                    }
+                    _board.Add((row, col), boardCell);
+                    _filledCellsCount++;
+
+
+                }
+            }
+        }
+
+        public bool IsBoardFull()
         {
             return _filledCellsCount == BoardSize * BoardSize;
         }

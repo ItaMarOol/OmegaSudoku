@@ -12,6 +12,10 @@ namespace OmegaSudoku.Utilities
         public const int BoardSize = 9;
         public const int MinCellValue = 1;
         public const int MaxCellValue = BoardSize;
+
+        public const char AsciiDigitDiff = '0';
+
+
     }
 
 }

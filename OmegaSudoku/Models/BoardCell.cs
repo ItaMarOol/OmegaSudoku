@@ -20,6 +20,8 @@ namespace OmegaSudoku.Models
             _possibleValues = new HashSet<int>();
             if (value == 0)
                 InitializePossibilities(Boardsize); // adding all possible cell values
+            else
+                _possibleValues.Add(value);
         }
         private void InitializePossibilities(int boardSize)
         {
