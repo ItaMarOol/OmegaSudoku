@@ -71,6 +71,11 @@ namespace OmegaSudoku.Models
             return _filledCellsCount == BoardSize * BoardSize;
         }
 
+        public BoardCell GetCell(int row, int col) 
+        {
+            return _board[(row,col)];
+        }
+
         public int GetCellValue(int row, int col)
         {
             var cell = _board[(row, col)];
