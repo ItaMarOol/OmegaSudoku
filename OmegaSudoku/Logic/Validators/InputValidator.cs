@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaSudoku.Validators
+namespace OmegaSudoku.Logic.Validators
 {
     public class InputValidator
     {
@@ -14,7 +14,7 @@ namespace OmegaSudoku.Validators
 
         public InputValidator(string input)
         {
-            this._input = input;
+            _input = input;
         }
         public bool IsInputLengthValid()
         {

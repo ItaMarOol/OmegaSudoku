@@ -1,4 +1,5 @@
-﻿using OmegaSudoku.Models;
+﻿using OmegaSudoku.Logic;
+using OmegaSudoku.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

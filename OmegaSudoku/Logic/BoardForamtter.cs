@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaSudoku.Services.Output
+namespace OmegaSudoku.Logic
 {
     public class BoardFormatter
     {

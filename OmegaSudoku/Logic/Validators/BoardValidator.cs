@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaSudoku.Validators
+namespace OmegaSudoku.Logic.Validators
 {
     public class BoardValidator
     {
@@ -26,7 +26,7 @@ namespace OmegaSudoku.Validators
                 {
                     if (seenValues.Contains(value))
                     {
-                        return false; 
+                        return false;
                     }
                     seenValues.Add(value);
                 }
@@ -40,11 +40,11 @@ namespace OmegaSudoku.Validators
             for (int row = 0; row < _board.BoardSize; row++)
             {
                 int value = _board.GetCellValue(row, col);
-                if (value != 0) 
+                if (value != 0)
                 {
                     if (seenValues.Contains(value))
                     {
-                        return false; 
+                        return false;
                     }
                     seenValues.Add(value);
                 }
@@ -60,11 +60,11 @@ namespace OmegaSudoku.Validators
                 for (int col = startCol; col < startCol + blockSize; col++)
                 {
                     int value = _board.GetCellValue(row, col);
-                    if (value != 0) 
+                    if (value != 0)
                     {
                         if (seenValues.Contains(value))
                         {
-                            return false; 
+                            return false;
                         }
                         seenValues.Add(value);
                     }
@@ -80,13 +80,13 @@ namespace OmegaSudoku.Validators
             int blockSize = (int)Math.Sqrt(boardSize);
             for (int row = 0; row < boardSize; row++)
             {
-                if (!IsRowValid(row)) 
+                if (!IsRowValid(row))
                     return false;
             }
 
             for (int col = 0; col < boardSize; col++)
             {
-                if (!IsColumnValid(col)) 
+                if (!IsColumnValid(col))
                     return false;
             }
 
@@ -94,7 +94,7 @@ namespace OmegaSudoku.Validators
             {
                 for (int col = 0; col < boardSize; col += blockSize)
                 {
-                    if (!IsBlockValid(row, col, blockSize)) 
+                    if (!IsBlockValid(row, col, blockSize))
                         return false;
                 }
             }
