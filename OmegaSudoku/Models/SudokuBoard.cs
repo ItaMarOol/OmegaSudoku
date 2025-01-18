@@ -39,6 +39,7 @@ namespace OmegaSudoku.Models
             _filledCellsCount = 0;
             _board = new Dictionary<(int, int), BoardCell>();
 
+            int index = 0;
             int remainingCells = BoardSize * boardSize - boardString.Length;
 
             // cells initialization
@@ -48,18 +49,19 @@ namespace OmegaSudoku.Models
                 {
                     BoardCell boardCell;
 
-                    if (_filledCellsCount < boardString.Length)
+                    if (index < boardString.Length)
                     {
-                        int value = boardString[_filledCellsCount] - Constants.AsciiDigitDiff;
+                        int value = boardString[index] - Constants.AsciiDigitDiff;
                         boardCell = new BoardCell(row, col, BoardSize, value);
-
+                        if (value != 0)
+                            _filledCellsCount++;
                     }
                     else
                     {
                         boardCell = new BoardCell(row, col, BoardSize, 0);
                     }
                     _board.Add((row, col), boardCell);
-                    _filledCellsCount++;
+                    index++;
 
 
                 }
@@ -96,7 +98,25 @@ namespace OmegaSudoku.Models
             cell.SetValue(value, BoardSize);
         }
 
-         
+        public void AddCellPossibility(int row, int col, int possibilityValue)
+        {
+            var cell = _board[(row, col)];
+            bool cellWasEmptyFlag = cell.IsEmpty();
+            cell.AddPossibility(possibilityValue);
+            if (!cellWasEmptyFlag && cell.IsEmpty())
+                _filledCellsCount--;
+        }
+
+        public void RemoveCellPossibility(int row, int col, int possibilityValue)
+        {
+            var cell = _board[(row, col)];
+            bool cellWasEmptyFlag = cell.IsEmpty();
+            cell.RemovePossibility(possibilityValue);
+            if (cellWasEmptyFlag && !cell.IsEmpty())
+                _filledCellsCount++;
+        }
+
+
     }
 
 }

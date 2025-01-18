@@ -64,5 +64,9 @@ namespace OmegaSudoku.Models
             return _possibleValues.Count; 
         }
 
+
+        public HashSet<int> GetPossibilities() { return _possibleValues; }
+        public void SetPossibilities(HashSet<int> possibilities) { _possibleValues = possibilities; }
+
     }
 }
