@@ -10,7 +10,6 @@ namespace OmegaSudoku.Models
     public class SudokuBoard
     {
         public int BoardSize { get; private set; }
-        public int FilledCellsCount { get; set; }
         private Dictionary<(int, int), BoardCell> _board { get; set; }
  
 
@@ -18,7 +17,6 @@ namespace OmegaSudoku.Models
         {
 
             BoardSize = boardSize;
-            FilledCellsCount = 0;
             _board = new Dictionary<(int, int), BoardCell>();
 
             // cells initialization
@@ -36,7 +34,6 @@ namespace OmegaSudoku.Models
         {
 
             BoardSize = boardSize;
-            FilledCellsCount = 0;
             _board = new Dictionary<(int, int), BoardCell>();
 
             int index = 0;
@@ -53,8 +50,6 @@ namespace OmegaSudoku.Models
                     {
                         int value = boardString[index] - Constants.AsciiDigitDiff;
                         boardCell = new BoardCell(row, col, BoardSize, value);
-                        if (value != 0)
-                            FilledCellsCount++;
                     }
                     else
                     {
@@ -70,7 +65,15 @@ namespace OmegaSudoku.Models
 
         public bool IsBoardFull()
         {
-            return FilledCellsCount == BoardSize * BoardSize;
+            for (int row = 0; row <= BoardSize; row++) 
+            {
+                for (int col = 0; col <= BoardSize; col++)
+                {
+                    if (GetCellValue(row,col) == 0)
+                        return false;
+                }
+            }
+            return true;
         }
 
         public BoardCell GetCell(int row, int col) 
@@ -89,31 +92,19 @@ namespace OmegaSudoku.Models
         public void SetCellValue(int row, int col, int value)
         {
             var cell = _board[(row, col)];
-            if (cell.GetValue() == 0 && value != 0) // filling an empty cell
-                FilledCellsCount++;  
-
-            if (cell.GetValue() != 0 && value == 0) // removing a filled cell
-                FilledCellsCount--;  
-
             cell.SetValue(value, BoardSize);
         }
 
         public void AddCellPossibility(int row, int col, int possibilityValue)
         {
             var cell = _board[(row, col)];
-            bool cellWasEmptyFlag = cell.IsEmpty();
             cell.AddPossibility(possibilityValue);
-            if (!cellWasEmptyFlag && cell.IsEmpty())
-                FilledCellsCount--;
         }
 
         public void RemoveCellPossibility(int row, int col, int possibilityValue)
         {
             var cell = _board[(row, col)];
-            bool cellWasEmptyFlag = cell.IsEmpty();
             cell.RemovePossibility(possibilityValue);
-            if (cellWasEmptyFlag && !cell.IsEmpty())
-                FilledCellsCount++;
         }
 
         public bool IsValueInRow(int row, int value)
