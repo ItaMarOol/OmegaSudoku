@@ -12,7 +12,7 @@ namespace OmegaSudoku.Models
         public int BoardSize { get; private set; }
         private int _filledCellsCount { get; set; }
         private Dictionary<(int, int), BoardCell> _board { get; set; }
-
+ 
 
         public SudokuBoard(int boardSize)
         {
@@ -115,6 +115,53 @@ namespace OmegaSudoku.Models
             if (cellWasEmptyFlag && !cell.IsEmpty())
                 _filledCellsCount++;
         }
+
+        public bool IsValueInRow(int row, int value)
+        {
+            for (int col = 0; col < BoardSize; col++)
+            {
+                var cell = _board[(row,col)];
+                if (cell.GetValue() == value)
+                    return true;
+            }
+            return false; 
+        }
+
+        public bool IsValueInCol(int col, int value)
+        {
+            for (int row = 0; row < BoardSize; row++)
+            {
+                var cell = _board[(row, col)];
+                if (cell.GetValue() == value)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsValueInBlock(int row, int col, int value)
+        {
+            int boxSize = (int)Math.Sqrt(BoardSize);
+            int boxFirstRow = (row / boxSize) * boxSize;
+            int boxFirstCol = (col / boxSize) * boxSize;
+
+            for (int r = boxFirstRow; r < boxFirstRow + boxSize; r++)
+            {
+                for (int c = boxFirstCol; c < boxFirstCol + boxSize; c++)
+                {
+                    var cell = _board[(r, c)];
+                    if (cell.GetValue() == value)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool CanValueBePlaced(int row, int col, int value)
+        {
+            return !IsValueInRow(row,value) && !IsValueInCol(col,value) && !IsValueInBlock(row,col,value);
+        }
+
 
 
     }
