@@ -292,6 +292,42 @@ namespace OmegaSudoku.Models
             return LowestCell;
         }
 
+        /// <summary>
+        /// saving the board state into a dictionary with cell as the key and possibilities as the value.
+        /// </summary>
+        /// <returns>A dictionary with the current board state.</returns>
+        private Dictionary<BoardCell, HashSet<int>> SaveBoardState()
+        {
+            var state = new Dictionary<BoardCell, HashSet<int>>();
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    var cell = _board[(row, col)];
+                    if (cell.IsEmpty())
+                    {
+                        state[cell] = new HashSet<int>(cell.GetPossibilities());
+                    }
+                }
+            }
+            return state;
+        }
+
+        /// <summary>
+        /// restoring a board state by setting the current board cells possibilities from the saved state.
+        /// </summary>
+        /// <param name="savedState"> The Sudoku board state to apply. </param>
+        /// <returns></returns>
+        private void RestoreBoardState(Dictionary<BoardCell, HashSet<int>> savedState)
+        {
+            foreach (var savedCell in savedState)
+            {
+                BoardCell cell = savedCell.Key;
+                HashSet<int> possibilities = savedCell.Value;
+                cell.SetPossibilities(possibilities);
+            }
+        }
+
 
 
     }
