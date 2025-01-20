@@ -12,7 +12,7 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
 
-        SudokuBoard board = new SudokuBoard(9, "400000805030000000000700000020000060000080400000010000000603070500200000104000000");
+        SudokuBoard board = new SudokuBoard(9, "000030000060000400007050800000406000000900000050010300400000020000300000000000000");
 
         outputHandler.PrintBoard(board);
 

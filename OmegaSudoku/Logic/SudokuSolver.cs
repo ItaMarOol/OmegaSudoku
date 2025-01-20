@@ -18,9 +18,8 @@ namespace OmegaSudoku.Logic
         /// <returns> True if the sudoku board has been filled correctly with values. else - returns false </returns>
         private static bool BackTrack(SudokuBoard board)
         {
-            BoardValidator boardValidator = new BoardValidator(board);
             BoardCell lowestCell = board.GetLowestPossibilitesCell(); // getting the cell with the lowest possibilities
-            if (board.HasZeroCountCell() || !boardValidator.IsBoardValid())
+            if (board.HasZeroCountCell() || !BoardValidator.IsBoardValid(board))
                 return false;
 
             if (lowestCell == null) // check if the board has been solved
@@ -35,7 +34,7 @@ namespace OmegaSudoku.Logic
                 int lowestCol = lowestCell.Col;
                 if (board.CanValueBePlaced(lowestRow, lowestCol, possibleValue))
                 {
-                    savedState = board.SaveBoardState(); 
+                    savedState = board.SaveBoardState();
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
 
                     board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
@@ -64,7 +63,7 @@ namespace OmegaSudoku.Logic
             board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
             board.ApplyNakedPairs(); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
             flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
-           
+
             return flag;
         }
 

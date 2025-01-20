@@ -10,16 +10,9 @@ namespace OmegaSudoku.Services.Output
 {
     public class CliOutputHandler : IOutputHandler
     {
-        private readonly BoardFormatter _formatter;
-
-        public CliOutputHandler()
-        {
-            _formatter = new BoardFormatter();
-        }
-
         public void PrintBoard(SudokuBoard board) 
         {
-            string boardString = _formatter.ConvertBoardToString(board);
+            string boardString = BoardFormatter.ConvertBoardToString(board);
             PrintBoard(boardString);
         }
 

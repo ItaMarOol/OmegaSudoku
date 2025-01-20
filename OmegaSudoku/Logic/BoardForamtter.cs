@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic
 {
-    public class BoardFormatter
+    public static class BoardFormatter
     {
 
         /// <summary>
@@ -15,7 +15,7 @@ namespace OmegaSudoku.Logic
         /// </summary>
         /// <param name="board">The Sudoku board to be converted.</param>
         /// <returns>A single long string representing the board.</returns>
-        public string ConvertBoardToString(SudokuBoard board)
+        public static string ConvertBoardToString(SudokuBoard board)
         {
             StringBuilder boardString = new StringBuilder();
 

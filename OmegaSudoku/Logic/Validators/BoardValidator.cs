@@ -7,21 +7,15 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Validators
 {
-    public class BoardValidator
+    public static class BoardValidator
     {
-        private readonly SudokuBoard _board;
 
-        public BoardValidator(SudokuBoard board)
-        {
-            _board = board;
-        }
-
-        public bool IsRowValid(int row)
+        private static bool IsRowValid(SudokuBoard board, int row)
         {
             HashSet<int> seenValues = new HashSet<int>();
-            for (int col = 0; col < _board.BoardSize; col++)
+            for (int col = 0; col < board.BoardSize; col++)
             {
-                int value = _board.GetCellValue(row, col);
+                int value = board.GetCellValue(row, col);
                 if (value != 0)
                 {
                     if (seenValues.Contains(value))
@@ -34,12 +28,12 @@ namespace OmegaSudoku.Logic.Validators
             return true;
         }
 
-        public bool IsColumnValid(int col)
+        private static bool IsColumnValid(SudokuBoard board, int col)
         {
             HashSet<int> seenValues = new HashSet<int>();
-            for (int row = 0; row < _board.BoardSize; row++)
+            for (int row = 0; row < board.BoardSize; row++)
             {
-                int value = _board.GetCellValue(row, col);
+                int value = board.GetCellValue(row, col);
                 if (value != 0)
                 {
                     if (seenValues.Contains(value))
@@ -52,14 +46,14 @@ namespace OmegaSudoku.Logic.Validators
             return true;
         }
 
-        public bool IsBlockValid(int startRow, int startCol, int blockSize)
+        private static bool IsBlockValid(SudokuBoard board, int startRow, int startCol, int blockSize)
         {
             HashSet<int> seenValues = new HashSet<int>();
             for (int row = startRow; row < startRow + blockSize; row++)
             {
                 for (int col = startCol; col < startCol + blockSize; col++)
                 {
-                    int value = _board.GetCellValue(row, col);
+                    int value = board.GetCellValue(row, col);
                     if (value != 0)
                     {
                         if (seenValues.Contains(value))
@@ -74,19 +68,19 @@ namespace OmegaSudoku.Logic.Validators
         }
 
 
-        public bool IsBoardValid()
+        public static bool IsBoardValid(SudokuBoard board)
         {
-            int boardSize = _board.BoardSize;
+            int boardSize = board.BoardSize;
             int blockSize = (int)Math.Sqrt(boardSize);
             for (int row = 0; row < boardSize; row++)
             {
-                if (!IsRowValid(row))
+                if (!IsRowValid(board, row))
                     return false;
             }
 
             for (int col = 0; col < boardSize; col++)
             {
-                if (!IsColumnValid(col))
+                if (!IsColumnValid(board, col))
                     return false;
             }
 
@@ -94,7 +88,7 @@ namespace OmegaSudoku.Logic.Validators
             {
                 for (int col = 0; col < boardSize; col += blockSize)
                 {
-                    if (!IsBlockValid(row, col, blockSize))
+                    if (!IsBlockValid(board, row, col, blockSize))
                         return false;
                 }
             }

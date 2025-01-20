@@ -19,10 +19,5 @@ namespace OmegaSudoku.Services.Input
             return input;
         }
 
-
-        /*public SudokuBoard BuildSudokuBoard(string input)
-        {
-
-        }*/
     }
 }
