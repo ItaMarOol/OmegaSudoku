@@ -10,7 +10,7 @@ namespace OmegaSudoku.Models
     public class SudokuBoard
     {
         public int BoardSize { get; private set; }
-        private int _filledCellsCount { get; set; }
+        public int FilledCellsCount { get; set; }
         private Dictionary<(int, int), BoardCell> _board { get; set; }
  
 
@@ -18,7 +18,7 @@ namespace OmegaSudoku.Models
         {
 
             BoardSize = boardSize;
-            _filledCellsCount = 0;
+            FilledCellsCount = 0;
             _board = new Dictionary<(int, int), BoardCell>();
 
             // cells initialization
@@ -36,7 +36,7 @@ namespace OmegaSudoku.Models
         {
 
             BoardSize = boardSize;
-            _filledCellsCount = 0;
+            FilledCellsCount = 0;
             _board = new Dictionary<(int, int), BoardCell>();
 
             int index = 0;
@@ -54,7 +54,7 @@ namespace OmegaSudoku.Models
                         int value = boardString[index] - Constants.AsciiDigitDiff;
                         boardCell = new BoardCell(row, col, BoardSize, value);
                         if (value != 0)
-                            _filledCellsCount++;
+                            FilledCellsCount++;
                     }
                     else
                     {
@@ -70,7 +70,7 @@ namespace OmegaSudoku.Models
 
         public bool IsBoardFull()
         {
-            return _filledCellsCount == BoardSize * BoardSize;
+            return FilledCellsCount == BoardSize * BoardSize;
         }
 
         public BoardCell GetCell(int row, int col) 
@@ -90,10 +90,10 @@ namespace OmegaSudoku.Models
         {
             var cell = _board[(row, col)];
             if (cell.GetValue() == 0 && value != 0) // filling an empty cell
-                _filledCellsCount++;  
+                FilledCellsCount++;  
 
             if (cell.GetValue() != 0 && value == 0) // removing a filled cell
-                _filledCellsCount--;  
+                FilledCellsCount--;  
 
             cell.SetValue(value, BoardSize);
         }
@@ -104,7 +104,7 @@ namespace OmegaSudoku.Models
             bool cellWasEmptyFlag = cell.IsEmpty();
             cell.AddPossibility(possibilityValue);
             if (!cellWasEmptyFlag && cell.IsEmpty())
-                _filledCellsCount--;
+                FilledCellsCount--;
         }
 
         public void RemoveCellPossibility(int row, int col, int possibilityValue)
@@ -113,7 +113,7 @@ namespace OmegaSudoku.Models
             bool cellWasEmptyFlag = cell.IsEmpty();
             cell.RemovePossibility(possibilityValue);
             if (cellWasEmptyFlag && !cell.IsEmpty())
-                _filledCellsCount++;
+                FilledCellsCount++;
         }
 
         public bool IsValueInRow(int row, int value)
@@ -160,6 +160,136 @@ namespace OmegaSudoku.Models
         public bool CanValueBePlaced(int row, int col, int value)
         {
             return !IsValueInRow(row,value) && !IsValueInCol(col,value) && !IsValueInBlock(row,col,value);
+        }
+
+        public bool HasZeroCountCell()
+        {
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    if (_board[(row, col)].GetPossibilitesCount() == 0)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// updates a given Sudoku board cell his row value possibilities.
+        /// </summary>
+        /// <param name="cell"> The Sudoku board cell to be updated. </param>
+        /// <returns></returns>
+        public void UpdatePossibleRowValues(BoardCell cell)
+        {
+            int row = cell.Row;
+            for (int col = 0; col < BoardSize; col++)
+            {
+                if (col != cell.Col)
+                {
+                    int value = GetCellValue(row, col);
+                    RemoveCellPossibility(cell.Row, cell.Col, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// updates a given Sudoku board cell his column value possibilities.
+        /// </summary>
+        /// <param name="cell"> The Sudoku board cell to be updated. </param>
+        /// <returns></returns>
+        public void UpdatePossibleColumnValues(BoardCell cell)
+        {
+            int col = cell.Col;
+            for (int row = 0; row < BoardSize; row++)
+            {
+                if (row != cell.Row)
+                {
+                    int value = GetCellValue(row, col);
+                    RemoveCellPossibility(cell.Row, cell.Col, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// updates a given Sudoku board cell his block value possibilities.
+        /// </summary>
+        /// <param name="cell"> The Sudoku board cell to be updated. </param>
+        /// <returns></returns>
+        public void UpdatePossibleBlockValues(BoardCell cell)
+        {
+
+            int boxSize = (int)Math.Sqrt(BoardSize);
+            int boxFirstRow = (cell.Row / boxSize) * boxSize;
+            int boxFirstCol = (cell.Col / boxSize) * boxSize;
+
+            for (int row = boxFirstRow; row < boxFirstRow + boxSize; row++)
+            {
+                for (int col = boxFirstCol; col < boxFirstCol + boxSize; col++)
+                {
+                    if (col != cell.Col && row != cell.Row)
+                    {
+                        var value = GetCellValue(row, col);
+                        RemoveCellPossibility(cell.Row, cell.Col, value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// updates a given Sudoku board cell all of his value possibilities.
+        /// </summary>
+        /// <param name="cell"> The Sudoku board cell to be updated. </param>
+        /// <returns></returns>
+        public void UpdatePossiableValues(BoardCell cell)
+        {
+            UpdatePossibleRowValues(cell);
+            UpdatePossibleColumnValues(cell);
+            UpdatePossibleBlockValues(cell);
+        }
+
+        /// <summary>
+        /// updates all of a sudoku board cells possibilities.
+        /// </summary>
+        /// <returns></returns>
+        public void UpdateAllCellsPossibilities()
+        {
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    var cell = _board[(row, col)];
+                    if (cell.IsEmpty())
+                    {
+                        UpdatePossiableValues(cell);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// getting the empty cell with the lowest possibilities on the board.
+        /// </summary>
+        /// <returns> The cel with the lowest possibilites on the board. if not found - returns null. </returns>
+        public BoardCell GetLowestPossibilitesCell()
+        {
+            BoardCell LowestCell = null;
+            int LowestPossibilities = BoardSize;
+
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    var cell = _board[(row, col)];
+                    int possibilitiesCount = cell.GetPossibilitesCount();
+                    if (cell.IsEmpty() && possibilitiesCount <= LowestPossibilities)
+                    {
+                        LowestCell = cell;
+                        LowestPossibilities = possibilitiesCount;
+                    }
+                }
+            }
+            return LowestCell;
         }
 
 
