@@ -329,7 +329,7 @@ namespace OmegaSudoku.Models
         }
 
         /// <summary>
-        /// Applies the naked pairs sudoku huristic to the whole board.
+        /// Applies the naked pairs sudoku heuristic to the whole board.
         /// A naked pair are two empty cells in the same row/column/block that both has the same two value possibilities.
         /// The function removes these values from the other cells in the pair's row, column, block to reduce possibilities.
         /// </summary>
