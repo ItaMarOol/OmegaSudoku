@@ -296,7 +296,7 @@ namespace OmegaSudoku.Models
         /// saving the board state into a dictionary with cell as the key and possibilities as the value.
         /// </summary>
         /// <returns>A dictionary with the current board state.</returns>
-        private Dictionary<BoardCell, HashSet<int>> SaveBoardState()
+        public Dictionary<BoardCell, HashSet<int>> SaveBoardState()
         {
             var state = new Dictionary<BoardCell, HashSet<int>>();
             for (int row = 0; row < BoardSize; row++)
@@ -318,13 +318,189 @@ namespace OmegaSudoku.Models
         /// </summary>
         /// <param name="savedState"> The Sudoku board state to apply. </param>
         /// <returns></returns>
-        private void RestoreBoardState(Dictionary<BoardCell, HashSet<int>> savedState)
+        public void RestoreBoardState(Dictionary<BoardCell, HashSet<int>> savedState)
         {
             foreach (var savedCell in savedState)
             {
                 BoardCell cell = savedCell.Key;
                 HashSet<int> possibilities = savedCell.Value;
                 cell.SetPossibilities(possibilities);
+            }
+        }
+
+        /// <summary>
+        /// Applies the naked pairs sudoku huristic to the whole board.
+        /// A naked pair are two empty cells in the same row/column/block that both has the same two value possibilities.
+        /// The function removes these values from the other cells in the pair's row, column, block to reduce possibilities.
+        /// </summary>
+        /// <returns></returns>
+        public void ApplyNakedPairs()
+        {
+            int boxLength = (int)Math.Sqrt(BoardSize);
+
+            for (int row = 0; row < BoardSize; row++)
+            {
+                ApplyNakedPairsInRow(row);
+            }
+
+            for (int col = 0; col < BoardSize; col++)
+            {
+                ApplyNakedPairsInColumn(col);
+            }
+
+            for (int boxRow = 0; boxRow < BoardSize; boxRow += boxLength)
+            {
+                for (int boxCol = 0; boxCol < BoardSize; boxCol += boxLength)
+                {
+                    ApplyNakedPairsInBlock(boxRow, boxCol);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Applies the naked pairs sudoku huristic to a given row on the board.
+        /// </summary>
+        /// <param name="row"> The Sudoku board row to apply the naked pair huristic. </param>
+        /// <returns></returns>
+        private void ApplyNakedPairsInRow(int row)
+        {
+            List<BoardCell> emptyCells = new List<BoardCell>();
+
+            // adding the empty cells into a list
+            for (int col = 0; col < BoardSize; col++)
+            {
+                var cell = GetCell(row, col);
+                if (cell.IsEmpty())
+                {
+                    emptyCells.Add(cell);
+                }
+            }
+
+            // looking for two empty cells with the same possibilities pair
+            for (int i = 0; i < emptyCells.Count; i++)
+            {
+                for (int j = i + 1; j < emptyCells.Count; j++)
+                {
+                    var cell1 = emptyCells[i];
+                    var cell2 = emptyCells[j];
+
+                    var possibilities1 = cell1.GetPossibilities();
+                    var possibilities2 = cell2.GetPossibilities();
+
+                    if (possibilities1.SetEquals(possibilities2) && possibilities1.Count == 2)
+                    {
+                        // removing the possibilities pair from the empty cell in the given row
+                        for (int col = 0; col < BoardSize; col++)
+                        {
+                            if (col != cell1.Col && col != cell2.Col)
+                            {
+                                RemoveCellPossibility(row, col, possibilities1.First());
+                                RemoveCellPossibility(row, col, possibilities1.Last());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Applies the naked pairs sudoku huristic to a given column on the board.
+        /// </summary>
+        /// <param name="col"> The Sudoku board column to apply the naked pair huristic. </param>
+        /// <returns></returns>
+        private void ApplyNakedPairsInColumn(int col)
+        {
+            List<BoardCell> emptyCells = new List<BoardCell>();
+
+            // adding the empty cells in the given column into a list
+            for (int row = 0; row < BoardSize; row++)
+            {
+                var cell = GetCell(row, col);
+                if (cell.IsEmpty())
+                {
+                    emptyCells.Add(cell);
+                }
+            }
+
+            // looking for two empty cells with the same possibilities pair
+            for (int i = 0; i < emptyCells.Count; i++)
+            {
+                for (int j = i + 1; j < emptyCells.Count; j++)
+                {
+                    var cell1 = emptyCells[i];
+                    var cell2 = emptyCells[j];
+
+                    var possibilities1 = cell1.GetPossibilities();
+                    var possibilities2 = cell2.GetPossibilities();
+
+                    if (possibilities1.SetEquals(possibilities2) && possibilities1.Count == 2)
+                    {
+                        // removing the possibilities pair from the empty cell in the given column
+                        for (int row = 0; row < BoardSize; row++)
+                        {
+                            if (row != cell1.Row && row != cell2.Row)
+                            {
+                                RemoveCellPossibility(row, col, possibilities1.First());
+                                RemoveCellPossibility(row, col, possibilities1.Last());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Applies the naked pairs sudoku huristic to a given block on the board.
+        /// </summary>
+        /// <param name="blockStartRow"> The Sudoku board start row of the block to apply the naked pair huristic. </param>
+        /// <param name="blockStartCol"> The Sudoku board start column of the block to apply the naked pair huristic. </param>
+
+        /// <returns></returns>
+        private void ApplyNakedPairsInBlock(int blockStartRow, int blockStartCol)
+        {
+            int boxLength = (int)Math.Sqrt(BoardSize);
+            List<BoardCell> emptyCells = new List<BoardCell>();
+
+            // adding the empty cells into a list
+            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+            {
+                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                {
+                    var cell = GetCell(row, col);
+                    if (cell.IsEmpty())
+                    {
+                        emptyCells.Add(cell);
+                    }
+                }
+            }
+
+            // looking for two empty cells with the same possibilities pair
+            for (int i = 0; i < emptyCells.Count; i++)
+            {
+                for (int j = i + 1; j < emptyCells.Count; j++)
+                {
+                    var cell1 = emptyCells[i];
+                    var cell2 = emptyCells[j];
+
+                    var possibilities1 = cell1.GetPossibilities();
+                    var possibilities2 = cell2.GetPossibilities();
+
+                    if (possibilities1.SetEquals(possibilities2) && possibilities1.Count == 2)
+                    {
+                        // removing the possibilities pair from the empty cell in the given block
+                        for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+                        {
+                            for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                            {
+                                if ((row != cell1.Row || col != cell1.Col) && (row != cell2.Row || col != cell2.Col))
+                                {
+                                    RemoveCellPossibility(row, col, possibilities1.First());
+                                    RemoveCellPossibility(row, col, possibilities1.Last());
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
