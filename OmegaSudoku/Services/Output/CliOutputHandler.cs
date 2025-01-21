@@ -18,6 +18,7 @@ namespace OmegaSudoku.Services.Output
 
         public void PrintBoard(string board)
         {
+            board = board.Replace('0', '.');
             int boardSize = (int)Math.Sqrt(board.Length);
             int blockLength = (int)Math.Sqrt(boardSize);
             int lineLength = boardSize * 2 + ((blockLength - 1) * 2) - 1;

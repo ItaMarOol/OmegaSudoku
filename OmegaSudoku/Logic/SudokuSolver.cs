@@ -26,15 +26,13 @@ namespace OmegaSudoku.Logic
                 return true;
 
             HashSet<int> possibilities = new HashSet<int>(lowestCell.GetPossibilities()); // getting the lowest cell possibilities
-            Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
-
             foreach (int possibleValue in possibilities)
             {
                 int lowestRow = lowestCell.Row;
                 int lowestCol = lowestCell.Col;
                 if (board.CanValueBePlaced(lowestRow, lowestCol, possibleValue))
                 {
-                    savedState = board.SaveBoardState();
+                    Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
 
                     board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
