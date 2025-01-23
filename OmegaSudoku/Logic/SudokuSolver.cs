@@ -35,8 +35,11 @@ namespace OmegaSudoku.Logic
                     Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
 
+
+                    SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
                     board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-                    board.ApplyNakedPairs(); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
+                    SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
+
 
                     if (BackTrack(board))
                         return true;
@@ -59,7 +62,8 @@ namespace OmegaSudoku.Logic
             bool flag;
 
             board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-            board.ApplyNakedPairs(); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
+            SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
+            SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
             flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
 
             return flag;

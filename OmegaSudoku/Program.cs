@@ -12,8 +12,8 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
 
-        string input = "000005080000601043000000000010500000000106000300000005530000061000000004000000000";
-        //input = input.Replace('.', '0');
+        string input = "3.7.4...........918........4.....7.....16.......25..........38..9....5...2.6.....\r\n";
+        input = input.Replace('.', '0');
         SudokuBoard board = new SudokuBoard(9, input);
 
         outputHandler.PrintBoard(board);
