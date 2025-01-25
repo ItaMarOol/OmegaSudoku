@@ -65,9 +65,9 @@ namespace OmegaSudoku.Models
 
         public bool IsBoardFull()
         {
-            for (int row = 0; row <= BoardSize; row++) 
+           for (int row = 0; row < BoardSize; row++) 
             {
-                for (int col = 0; col <= BoardSize; col++)
+                for (int col = 0; col < BoardSize; col++)
                 {
                     if (GetCellValue(row,col) == 0)
                         return false;
@@ -244,7 +244,7 @@ namespace OmegaSudoku.Models
         /// </summary>
         /// <returns></returns>
         public void UpdateAllCellsPossibilities()
-        {
+        { 
             for (int row = 0; row < BoardSize; row++)
             {
                 for (int col = 0; col < BoardSize; col++)

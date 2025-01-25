@@ -12,7 +12,7 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
 
-        string input = "3.7.4...........918........4.....7.....16.......25..........38..9....5...2.6.....\r\n";
+        string input = "4...3.......6..8..........1....5..9..8....6...7.2........1.27..5.3....4.9........\r\n";
         input = input.Replace('.', '0');
         SudokuBoard board = new SudokuBoard(9, input);
 
