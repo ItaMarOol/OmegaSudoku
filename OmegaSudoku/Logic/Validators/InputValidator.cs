@@ -1,4 +1,5 @@
-﻿using OmegaSudoku.Services.Output;
+﻿using OmegaSudoku.Exceptions;
+using OmegaSudoku.Services.Output;
 using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
@@ -33,18 +34,18 @@ namespace OmegaSudoku.Logic.Validators
 
         public static bool IsBasicInputValid(string input)
         {
-            CliOutputHandler outputHandler = new CliOutputHandler(); // temporary cli output handler
             if (!IsInputLengthValid(input))
             {
-                outputHandler.PrintError("Board length is invalid"); // throw new InvalidInputException
-                return false;
+                throw new InvalidBoardSizeException(input.Length);
             }
             if (!IsValidSudokuValues(input))
             {
                 List<char> invalidChars = GetInvalidInputChars(input);
-                outputHandler.PrintError($"Board values ({string.Join(",", invalidChars)}) are invalid "); // throw new InvalidInputException
-                return false;
+                throw new InvalidCellValuesException(invalidChars);
             }
+            int checkedValue = GetDuplicatedInputValue(input);
+            if (checkedValue != -1)
+                throw new DuplicateValueException(checkedValue);
             return true;
         }
 
@@ -61,6 +62,25 @@ namespace OmegaSudoku.Logic.Validators
                 }
             }
             return invalid;
+        }
+
+        private static int GetDuplicatedInputValue(string input)
+        {
+            int row, col;
+            int boardSize = (int)Math.Sqrt(input.Length);
+            List<int> seenValues = new List<int>();
+            for (row = 0; row < boardSize; row++)
+            {
+                for (col = 0; col < boardSize; col++) 
+                {
+                    int checkedValue = input[row * boardSize + col] - Constants.AsciiDigitDiff;
+                    if (checkedValue != 0 && !seenValues.Contains(checkedValue))
+                        seenValues.Add(input[row * boardSize + col]);
+                    else
+                        return checkedValue;
+                }
+            }
+            return -1;
         }
     }
 }

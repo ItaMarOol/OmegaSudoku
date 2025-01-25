@@ -1,4 +1,5 @@
-﻿using OmegaSudoku.Models;
+﻿using OmegaSudoku.Exceptions;
+using OmegaSudoku.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace OmegaSudoku.Logic.Validators
 {
     public static class BoardValidator
     {
-
         private static bool IsRowValid(SudokuBoard board, int row)
         {
             HashSet<int> seenValues = new HashSet<int>();
@@ -95,6 +95,7 @@ namespace OmegaSudoku.Logic.Validators
 
             return true;
         }
+
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using OmegaSudoku.Logic.Validators;
+﻿using OmegaSudoku.Exceptions;
+using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Output;
 using System;
@@ -65,7 +66,8 @@ namespace OmegaSudoku.Logic
             SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
             SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
             flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
-
+            if (!flag)
+                throw new UnsolvableBoardException();
             return flag;
         }
 

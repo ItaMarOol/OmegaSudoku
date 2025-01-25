@@ -12,23 +12,29 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
 
-        string input = "4...3.......6..8..........1....5..9..8....6...7.2........1.27..5.3....4.9........\r\n";
+        string input = "000030000060000400007050800000406000000900000050010300400000020000300000000000000";
         input = input.Replace('.', '0');
         SudokuBoard board = new SudokuBoard(9, input);
 
         outputHandler.PrintBoard(board);
-
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
+        bool flag = false;
 
-        bool flag = SudokuSolver.Solve(board);
+        try
+        {
+            flag = SudokuSolver.Solve(board);
+        }
+        catch (Exception ex) 
+        {
+            outputHandler.PrintError(ex.Message);
+        }
 
         stopwatch.Stop();
 
 
         if (!flag)
         {
-            Console.WriteLine("\nBoard is unsolvable");
             Console.WriteLine($"Time it took: {stopwatch.ElapsedMilliseconds} ms");
         }
 
