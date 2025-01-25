@@ -45,16 +45,8 @@ namespace OmegaSudoku.Models
                 for (int col = 0; col < BoardSize; col++)
                 {
                     BoardCell boardCell;
-
-                    if (index < boardString.Length)
-                    {
-                        int value = boardString[index] - Constants.AsciiDigitDiff;
-                        boardCell = new BoardCell(row, col, BoardSize, value);
-                    }
-                    else
-                    {
-                        boardCell = new BoardCell(row, col, BoardSize, 0);
-                    }
+                    int value = boardString[index] - Constants.AsciiDigitDiff;
+                    boardCell = new BoardCell(row, col, BoardSize, value);
                     _board.Add((row, col), boardCell);
                     index++;
 

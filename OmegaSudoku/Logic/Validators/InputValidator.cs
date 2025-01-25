@@ -13,7 +13,7 @@ namespace OmegaSudoku.Logic.Validators
     {
         private static bool IsInputLengthValid(string input)
         {
-            if (input.Length > Constants.BoardSize * Constants.BoardSize)
+            if (input.Length != Constants.BoardSize * Constants.BoardSize)
                 return false;
             return true;
         }
@@ -24,7 +24,7 @@ namespace OmegaSudoku.Logic.Validators
             for (index = 0; index < input.Length; index++)
             {
                 int value = input[index] - Constants.AsciiDigitDiff; // converting char to int (by ascii values)
-                if (value < Constants.MinCellValue || value > Constants.MaxCellValue)
+                if (value != 0 && value < Constants.MinCellValue || value > Constants.MaxCellValue)
                 {
                     return false;
                 }
@@ -74,11 +74,16 @@ namespace OmegaSudoku.Logic.Validators
                 for (col = 0; col < boardSize; col++) 
                 {
                     int checkedValue = input[row * boardSize + col] - Constants.AsciiDigitDiff;
-                    if (checkedValue != 0 && !seenValues.Contains(checkedValue))
-                        seenValues.Add(input[row * boardSize + col]);
-                    else
-                        return checkedValue;
+                    if (checkedValue != 0)
+                    {
+                        if (!seenValues.Contains(checkedValue))
+                            seenValues.Add(checkedValue);
+                        else
+                            return checkedValue;
+                    }
+
                 }
+                seenValues.Clear();
             }
             return -1;
         }

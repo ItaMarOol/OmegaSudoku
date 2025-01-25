@@ -1,4 +1,5 @@
 ﻿using OmegaSudoku.Logic;
+using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
@@ -12,7 +13,7 @@ public class Program
         CliInputHandler inputHandler = new CliInputHandler();
         CliOutputHandler outputHandler = new CliOutputHandler();
 
-        string input = "000030000060000400007050800000406000000900000050010300400000020000300000000000000";
+        string input = "000000000565000000000000000000000000000000000000000000000000000000000000000000000";
         input = input.Replace('.', '0');
         SudokuBoard board = new SudokuBoard(9, input);
 
@@ -23,6 +24,7 @@ public class Program
 
         try
         {
+            InputValidator.IsBasicInputValid(input);
             flag = SudokuSolver.Solve(board);
         }
         catch (Exception ex) 
