@@ -314,17 +314,12 @@ namespace OmegaSudoku.Models
         public Dictionary<BoardCell, HashSet<int>> SaveBoardState()
         {
             var state = new Dictionary<BoardCell, HashSet<int>>();
-            for (int row = 0; row < BoardSize; row++)
+
+            foreach (BoardCell emptyCell in _emptyCells)
             {
-                for (int col = 0; col < BoardSize; col++)
-                {
-                    var cell = _board[(row, col)];
-                    if (cell.IsEmpty())
-                    {
-                        state[cell] = new HashSet<int>(cell.GetPossibilities());
-                    }
-                }
+                state[emptyCell] = new HashSet<int>(emptyCell.GetPossibilities());
             }
+
             return state;
         }
 
@@ -340,7 +335,7 @@ namespace OmegaSudoku.Models
                 BoardCell cell = savedCell.Key;
                 HashSet<int> possibilities = savedCell.Value;
                 cell.SetPossibilities(possibilities);
-                if (possibilities.Count > 1 && !_emptyCells.Contains(cell))
+                if (!_emptyCells.Contains(cell))
                     _emptyCells.Add(cell);
             }
         }
