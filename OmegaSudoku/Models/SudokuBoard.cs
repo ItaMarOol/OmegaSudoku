@@ -11,13 +11,15 @@ namespace OmegaSudoku.Models
     {
         public int BoardSize { get; private set; }
         private Dictionary<(int, int), BoardCell> _board { get; set; }
- 
+        private List<BoardCell> _emptyCells;
+
 
         public SudokuBoard(int boardSize)
         {
 
             BoardSize = boardSize;
             _board = new Dictionary<(int, int), BoardCell>();
+            _emptyCells = new List<BoardCell>();
 
             // cells initialization
             for (int row = 0; row < BoardSize; row++)
@@ -26,15 +28,18 @@ namespace OmegaSudoku.Models
                 {
                     var boardCell = new BoardCell(row, col, BoardSize, 0);
                     _board.Add((row, col), boardCell);
+                    _emptyCells.Add(boardCell);
                 }
             }
         }
+
 
         public SudokuBoard(int boardSize, string boardString)
         {
 
             BoardSize = boardSize;
             _board = new Dictionary<(int, int), BoardCell>();
+            _emptyCells = new List<BoardCell>();
 
             int index = 0;
             int remainingCells = BoardSize * boardSize - boardString.Length;
@@ -47,6 +52,8 @@ namespace OmegaSudoku.Models
                     BoardCell boardCell;
                     int value = boardString[index] - Constants.AsciiDigitDiff;
                     boardCell = new BoardCell(row, col, BoardSize, value);
+                    if (value == 0)
+                        _emptyCells.Add(boardCell);
                     _board.Add((row, col), boardCell);
                     index++;
 
@@ -57,15 +64,7 @@ namespace OmegaSudoku.Models
 
         public bool IsBoardFull()
         {
-           for (int row = 0; row < BoardSize; row++) 
-            {
-                for (int col = 0; col < BoardSize; col++)
-                {
-                    if (GetCellValue(row,col) == 0)
-                        return false;
-                }
-            }
-            return true;
+            return _emptyCells.Count == 0;
         }
 
         public BoardCell GetCell(int row, int col) 
@@ -85,18 +84,27 @@ namespace OmegaSudoku.Models
         {
             var cell = _board[(row, col)];
             cell.SetValue(value, BoardSize);
+            if (value == 0 && !_emptyCells.Contains(cell))
+                _emptyCells.Add((cell));
+            else if (value != 0 && _emptyCells.Contains(cell))
+                _emptyCells.Remove(cell);
         }
 
         public void AddCellPossibility(int row, int col, int possibilityValue)
         {
             var cell = _board[(row, col)];
+            var oldPossibilitiesCount = cell.GetPossibilitesCount();
             cell.AddPossibility(possibilityValue);
+            if (oldPossibilitiesCount == 1 && cell.GetPossibilitesCount() > 1)
+                _emptyCells.Add(cell);
         }
 
         public void RemoveCellPossibility(int row, int col, int possibilityValue)
         {
             var cell = _board[(row, col)];
             cell.RemovePossibility(possibilityValue);
+            if (cell.GetPossibilitesCount() == 1)
+                _emptyCells.Remove(cell);
         }
 
         public bool IsValueInRow(int row, int value)
@@ -275,6 +283,30 @@ namespace OmegaSudoku.Models
             return LowestCell;
         }
 
+        public List<BoardCell> GetEmptyCells()
+        {
+            return _emptyCells;
+        }
+
+        public List<BoardCell> GetEmptyCellsInRow(int row)
+        {
+            return _emptyCells.Where(cell => cell.Row == row).ToList();
+        }
+
+        public List<BoardCell> GetEmptyCellsInColumn(int col)
+        {
+            return _emptyCells.Where(cell => cell.Col == col).ToList();
+        }
+
+        public List<BoardCell> GetEmptyCellsInBlock(int blockStartRow, int blockStartCol)
+        {
+            int boxLength = (int)Math.Sqrt(BoardSize);
+            return _emptyCells.Where(cell =>
+                cell.Row >= blockStartRow && cell.Row < blockStartRow + boxLength &&
+                cell.Col >= blockStartCol && cell.Col < blockStartCol + boxLength
+            ).ToList();
+        }
+
         /// <summary>
         /// saving the board state into a dictionary with cell as the key and possibilities as the value.
         /// </summary>
@@ -308,6 +340,8 @@ namespace OmegaSudoku.Models
                 BoardCell cell = savedCell.Key;
                 HashSet<int> possibilities = savedCell.Value;
                 cell.SetPossibilities(possibilities);
+                if (possibilities.Count > 1 && !_emptyCells.Contains(cell))
+                    _emptyCells.Add(cell);
             }
         }
 
