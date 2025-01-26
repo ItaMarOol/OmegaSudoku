@@ -48,17 +48,7 @@ namespace OmegaSudoku.Logic
         private static void ApplyNakedPairsInRow(SudokuBoard board, int row)
         {
             int boardSize = board.BoardSize;
-            List<BoardCell> emptyCells = new List<BoardCell>();
-
-            // adding the empty cells into a list
-            for (int col = 0; col < boardSize; col++)
-            {
-                var cell = board.GetCell(row, col);
-                if (cell.IsEmpty())
-                {
-                    emptyCells.Add(cell);
-                }
-            }
+            List<BoardCell> emptyCells = board.GetEmptyCellsInRow(row);
 
             // looking for two empty cells with the same possibilities pair
             for (int i = 0; i < emptyCells.Count; i++)
@@ -95,17 +85,7 @@ namespace OmegaSudoku.Logic
         private static void ApplyNakedPairsInColumn(SudokuBoard board, int col)
         {
             int boardSize = board.BoardSize;
-            List<BoardCell> emptyCells = new List<BoardCell>();
-
-            // adding the empty cells in the given column into a list
-            for (int row = 0; row < boardSize; row++)
-            {
-                var cell = board.GetCell(row, col);
-                if (cell.IsEmpty())
-                {
-                    emptyCells.Add(cell);
-                }
-            }
+            List<BoardCell> emptyCells = board.GetEmptyCellsInColumn(col);
 
             // looking for two empty cells with the same possibilities pair
             for (int i = 0; i < emptyCells.Count; i++)
@@ -145,20 +125,7 @@ namespace OmegaSudoku.Logic
         {
             int boardSize = board.BoardSize;
             int boxLength = (int)Math.Sqrt(boardSize);
-            List<BoardCell> emptyCells = new List<BoardCell>();
-
-            // adding the empty cells into a list
-            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
-            {
-                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
-                {
-                    var cell = board.GetCell(row, col);
-                    if (cell.IsEmpty())
-                    {
-                        emptyCells.Add(cell);
-                    }
-                }
-            }
+            List<BoardCell> emptyCells = board.GetEmptyCellsInBlock(blockStartRow, blockStartCol);
 
             // looking for two empty cells with the same possibilities pair
             for (int i = 0; i < emptyCells.Count; i++)
@@ -236,7 +203,7 @@ namespace OmegaSudoku.Logic
                 var cell = board.GetCell(row, col);
                 if (!cell.IsEmpty())
                 {
-                    usedValues.Add(cell.GetValue()); 
+                    usedValues.Add(cell.GetValue());
                 }
             }
 
@@ -288,7 +255,7 @@ namespace OmegaSudoku.Logic
                 var cell = board.GetCell(row, col);
                 if (!cell.IsEmpty())
                 {
-                    usedValues.Add(cell.GetValue());  
+                    usedValues.Add(cell.GetValue());
                 }
             }
 
@@ -343,7 +310,7 @@ namespace OmegaSudoku.Logic
                     var cell = board.GetCell(row, col);
                     if (!cell.IsEmpty())
                     {
-                        usedValues.Add(cell.GetValue());  
+                        usedValues.Add(cell.GetValue());
                     }
                 }
             }
