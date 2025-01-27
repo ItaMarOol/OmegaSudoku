@@ -10,7 +10,8 @@ namespace OmegaSudoku.Services.Input
     public interface IInputHandler
     {
         string GetInput();
-       // SudokuBoard BuildSudokuBoard(string input);
+        string GetBoardInput(int boardSize);
+        int GetBoardSize();
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using OmegaSudoku.Logic;
 using OmegaSudoku.Models;
+using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,14 +48,31 @@ namespace OmegaSudoku.Services.Output
 
         public void PrintMessage(string message)
         {
-            Console.WriteLine($"{message}");
+            Console.WriteLine($"\n{message}");
         }
 
         public void PrintError(string error)
         {
-            Console.WriteLine($"Error: {error}");
+            Console.WriteLine($"\nError: {error}");
         }
 
+        public void ShowMenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("1. Enter Sudoku board manually.");
+            Console.WriteLine("2. Enter Sudoku board from file.");
+            Console.WriteLine("omega>sigit - Exit the program.");
+            Console.Write("Please choose an option: ");
+        }
+
+        public void RequestBoardInput(int boardSize)
+        {
+            Console.WriteLine($"Please enter {boardSize}x{boardSize} sudoku board as one string (empty cells represented by '0'): ");
+        }
+        public void RequestBoardSize()
+        {
+            Console.WriteLine($"Please enter the sudoku board size (has to be a value between {Constants.MinBoardSize}-{Constants.MaxBoardSize} that it's square root is an integer): ");
+        }
 
 
 
