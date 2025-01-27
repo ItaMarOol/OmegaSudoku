@@ -14,5 +14,7 @@ namespace OmegaSudoku.Services.Output
         void PrintMessage(string message);  
         void PrintError (string error);
         void ShowMenu();
+        void ShowWelcomeMessage();
+        void ShowCharsDictionary();
     }
 }

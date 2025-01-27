@@ -22,13 +22,14 @@ namespace OmegaSudoku.Services.Output
             board = board.Replace('0', '.');
             int boardSize = (int)Math.Sqrt(board.Length);
             int blockLength = (int)Math.Sqrt(boardSize);
-            int lineLength = boardSize * 2 + ((blockLength - 1) * 2) - 1;
+            int lineLength = boardSize * 2 + ((blockLength - 1) * 2) +3;
 
             Console.WriteLine();
+            Console.WriteLine("-".PadLeft(lineLength, '-'));
             for (int rowIndex = 0; rowIndex < boardSize; rowIndex++)
             {
-                string row = board.Substring(rowIndex * boardSize, boardSize); 
-
+                string row = board.Substring(rowIndex * boardSize, boardSize);
+                Console.Write("| ");
                 for (int j = 0; j < boardSize; j++)
                 {
                     if (j % blockLength == 0 && j != 0) // right side of a block
@@ -37,13 +38,16 @@ namespace OmegaSudoku.Services.Output
                     }
                     Console.Write($"{row[j]} ");
                 }
-                
+                Console.Write("| ");
+
                 Console.WriteLine();
                 if ((rowIndex + 1) % blockLength == 0 && rowIndex != boardSize-1) // bottom side of a row of blocks
                 {
                     Console.WriteLine("-".PadLeft(lineLength, '-')); 
                 }
             }
+            Console.WriteLine("-".PadLeft(lineLength, '-'));
+
         }
 
         public void PrintMessage(string message)
@@ -61,8 +65,9 @@ namespace OmegaSudoku.Services.Output
             Console.WriteLine();
             Console.WriteLine("1. Enter Sudoku board manually.");
             Console.WriteLine("2. Enter Sudoku board from file.");
-            Console.WriteLine("omega>sigit - Exit the program.");
-            Console.Write("Please choose an option: ");
+            Console.WriteLine("3. Open sudoku chars dictionary.");
+            Console.WriteLine("4. Exit the program.");
+            Console.Write("\nPlease choose an option: ");
         }
 
         public void RequestBoardInput(int boardSize)
@@ -71,8 +76,27 @@ namespace OmegaSudoku.Services.Output
         }
         public void RequestBoardSize()
         {
-            Console.WriteLine($"Please enter the sudoku board size (has to be a value between {Constants.MinBoardSize}-{Constants.MaxBoardSize} that it's square root is an integer): ");
+            Console.Write($"Please enter the sudoku board size (has to be a value between {Constants.MinBoardSize}-{Constants.MaxBoardSize} that it's square root is an integer): ");
         }
+
+        public void ShowWelcomeMessage()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Welcome to Itamar's Omega Sudoku!");
+            Console.ResetColor();
+        }
+
+        public void ShowCharsDictionary()
+        {
+            Console.WriteLine("\nSudoku chars dictionary:");
+
+            for (int digit = 0; digit <= Constants.MaxBoardSize; digit++)
+            {
+                char character = (char)(digit + Constants.AsciiDigitDiff);
+                Console.WriteLine($"'{character}' = {digit}");
+            }
+        }
+
 
 
 

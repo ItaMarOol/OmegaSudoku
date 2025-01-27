@@ -5,6 +5,7 @@ using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
 using OmegaSudoku.Utilities;
 using System;
+using System.Diagnostics;
 
 namespace OmegaSudoku.Logic
 {
@@ -12,15 +13,18 @@ namespace OmegaSudoku.Logic
     {
         private readonly IInputHandler _inputHandler;
         private readonly IOutputHandler _outputHandler;
+        private readonly Stopwatch _stopwatch;
 
         public SudokuController(IInputHandler inputHandler, IOutputHandler outputHandler)
         {
             _inputHandler = inputHandler;
             _outputHandler = outputHandler;
+            _stopwatch = new Stopwatch();
         }
 
         public void Start()
         {
+            _outputHandler.ShowWelcomeMessage();
             while (true)
             {
                 // todo: add title and maybe some coloring, add ctrl + (x) "treatments"
@@ -37,8 +41,12 @@ namespace OmegaSudoku.Logic
                         EnterBoardFromFile();
                         break;
 
-                    case "omega>sigit":
-                        Console.WriteLine("\nExiting from program.");
+                    case "3":
+                        _outputHandler.ShowCharsDictionary();
+                        break;
+
+                    case "4":
+                        _outputHandler.PrintMessage("\nExiting from program.");
                         return;
 
                     default:
@@ -94,9 +102,13 @@ namespace OmegaSudoku.Logic
             _outputHandler.PrintMessage("\nInitial sudoku board:");
             _outputHandler.PrintBoard(board);
 
+            _stopwatch.Start();
             SudokuSolver.Solve(board); 
+            _stopwatch.Stop();
             _outputHandler.PrintMessage("\nSolved sudoku board:");
             _outputHandler.PrintBoard(board); // todo: if the given sudoku is from a file, print the solved *string* to the file
+            _outputHandler.PrintMessage($"Solving time: {_stopwatch.ElapsedMilliseconds} ms");
+            _stopwatch.Reset();
         }
 
 

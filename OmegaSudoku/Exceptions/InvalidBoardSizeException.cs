@@ -9,7 +9,7 @@ namespace OmegaSudoku.Exceptions
     class InvalidBoardSizeException : Exception
     {
         public InvalidBoardSizeException(int invalidBoardSize)
-            : base($"Invalid board size entered: {invalidBoardSize}")
+            : base($"Invalid cells amount entered: {invalidBoardSize}")
         { }
     }
 }
