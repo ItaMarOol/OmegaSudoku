@@ -264,23 +264,18 @@ namespace OmegaSudoku.Models
         /// <returns> The cel with the lowest possibilites on the board. if not found - returns null. </returns>
         public BoardCell GetLowestPossibilitesCell()
         {
-            BoardCell LowestCell = null;
-            int LowestPossibilities = BoardSize;
+            BoardCell lowestCell = null;
+            int lowestPossibilities = BoardSize;
 
-            for (int row = 0; row < BoardSize; row++)
+            foreach (BoardCell emptycell in _emptyCells)
             {
-                for (int col = 0; col < BoardSize; col++)
+                if (emptycell.GetPossibilitesCount() <= lowestPossibilities)
                 {
-                    var cell = _board[(row, col)];
-                    int possibilitiesCount = cell.GetPossibilitesCount();
-                    if (cell.IsEmpty() && possibilitiesCount <= LowestPossibilities)
-                    {
-                        LowestCell = cell;
-                        LowestPossibilities = possibilitiesCount;
-                    }
+                    lowestPossibilities = emptycell.GetPossibilitesCount();
+                    lowestCell = emptycell;
                 }
             }
-            return LowestCell;
+            return lowestCell;
         }
 
         public List<BoardCell> GetEmptyCells()

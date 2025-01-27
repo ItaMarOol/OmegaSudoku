@@ -21,43 +21,40 @@ namespace OmegaSudoku.Logic
         {
             List<BoardCell> unassignedCells = new List<BoardCell>();
 
-            //BoardCell lowestCell = board.GetLowestPossibilitesCell(); // getting the cell with the lowest possibilities
             if (board.HasZeroCountCell() || !BoardValidator.IsBoardValid(board))
                 return false;
 
             if (board.IsBoardFull()) // check if the board has been solved
                 return true;
 
-            unassignedCells = board.GetEmptyCells();
-            unassignedCells.Sort((cell1, cell2) => cell1.GetPossibilitesCount().CompareTo(cell2.GetPossibilitesCount()));
-            foreach (BoardCell lowestCell in unassignedCells)
+            BoardCell lowestCell = board.GetLowestPossibilitesCell();
+            if (lowestCell == null) 
+                return true;
+
+            HashSet<int> possibilities = new HashSet<int>(lowestCell.GetPossibilities()); // getting the lowest cell possibilities
+            foreach (int possibleValue in possibilities)
             {
-                HashSet<int> possibilities = new HashSet<int>(lowestCell.GetPossibilities()); // getting the lowest cell possibilities
-                foreach (int possibleValue in possibilities)
+                int lowestRow = lowestCell.Row;
+                int lowestCol = lowestCell.Col;
+                if (board.CanValueBePlaced(lowestRow, lowestCol, possibleValue))
                 {
-                    int lowestRow = lowestCell.Row;
-                    int lowestCol = lowestCell.Col;
-                    if (board.CanValueBePlaced(lowestRow, lowestCol, possibleValue))
-                    {
-                        Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
-                        board.SetCellValue(lowestRow, lowestCol, possibleValue);
+                    Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
+                    board.SetCellValue(lowestRow, lowestCol, possibleValue);
 
 
-                        SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
-                        board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-                        SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
+                    SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
+                    board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
+                    SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
 
 
-                        if (BackTrack(board))
-                            return true;
+                    if (BackTrack(board))
+                        return true;
 
-                        // the possible value is incorrect
-                        board.SetCellValue(lowestRow, lowestCol, 0);
-                        board.RestoreBoardState(savedState);
-                    }
-
+                    // the possible value is incorrect
+                    board.SetCellValue(lowestRow, lowestCol, 0);
+                    board.RestoreBoardState(savedState);
                 }
-                return false;
+
             }
             return false;
         }
@@ -74,6 +71,7 @@ namespace OmegaSudoku.Logic
             SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
             SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
             flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
+
             if (!flag)
                 throw new UnsolvableBoardException();
             return flag;
