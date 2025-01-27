@@ -8,42 +8,16 @@ using System.Diagnostics;
 
 public class Program
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
-        CliInputHandler inputHandler = new CliInputHandler();
-        CliOutputHandler outputHandler = new CliOutputHandler();
+        IInputHandler inputHandler = new CliInputHandler();
+        IOutputHandler outputHandler = new CliOutputHandler();
 
-        string input = "000000000565000000000000000000000000000000000000000000000000000000000000000000000";
-        input = input.Replace('.', '0');
-        SudokuBoard board = new SudokuBoard(9, input);
-
-        outputHandler.PrintBoard(board);
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        bool flag = false;
-
-        try
-        {
-            InputValidator.IsBasicInputValid(input);
-            flag = SudokuSolver.Solve(board);
-        }
-        catch (Exception ex) 
-        {
-            outputHandler.PrintError(ex.Message);
-        }
-
-        stopwatch.Stop();
-
-
-        if (!flag)
-        {
-            Console.WriteLine($"Time it took: {stopwatch.ElapsedMilliseconds} ms");
-        }
-
-        else
-        {
-            outputHandler.PrintBoard(board);
-            Console.WriteLine($"Solving time: {stopwatch.ElapsedMilliseconds} ms");
-        }
+        SudokuController controller = new SudokuController(inputHandler, outputHandler);
+         controller.Start();
+/*        SudokuBoard board = new SudokuBoard(9, "000030000060000400007050800000406000000900000050010300400000020000300000000000000");
+        SudokuSolver.Solve(board);
+        CliOutputHandler cli = new CliOutputHandler();
+        cli.PrintBoard(board);*/
     }
 }
