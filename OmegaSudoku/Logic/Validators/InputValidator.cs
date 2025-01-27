@@ -3,6 +3,7 @@ using OmegaSudoku.Services.Output;
 using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,15 @@ namespace OmegaSudoku.Logic.Validators
             if (input.Length != Constants.BoardSize * Constants.BoardSize)
                 return false;
             return true;
+        }
+
+        public static bool IsBoardSizeValid(int boardSize)
+        {
+            if (Math.Sqrt(boardSize) % 1 == 0 && boardSize >= Constants.MinBoardSize && boardSize <= Constants.MaxBoardSize)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static bool IsBasicInputValid(string input)

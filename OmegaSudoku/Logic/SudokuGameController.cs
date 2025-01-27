@@ -6,6 +6,7 @@ using OmegaSudoku.Services.Output;
 using OmegaSudoku.Utilities;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace OmegaSudoku.Logic
 {
@@ -27,7 +28,7 @@ namespace OmegaSudoku.Logic
             _outputHandler.ShowWelcomeMessage();
             while (true)
             {
-                // todo: add title and maybe some coloring, add ctrl + (x) "treatments"
+                // todo: add ctrl + (x) "treatments"
                 ShowMenu();
                 string command = _inputHandler.GetInput().ToLower();
 
@@ -76,7 +77,7 @@ namespace OmegaSudoku.Logic
         {
             try
             {
-                Console.Write("Please enter the file path to load the Sudoku board: ");
+                _outputHandler.PrintMessage("Please enter the file path to load the Sudoku board: ");
                 string filePath = _inputHandler.GetInput().Trim();
 
                 if (!File.Exists(filePath))
@@ -86,7 +87,14 @@ namespace OmegaSudoku.Logic
                 }
 
                 string boardInput = File.ReadAllText(filePath).Trim();
-                int boardSize = (int)Math.Sqrt(boardInput.Length); // todo: add length check
+                int boardSize = (int)Math.Sqrt(boardInput.Length);
+                if (!InputValidator.IsBoardSizeValid(boardSize))
+                {
+                    _outputHandler.PrintError("Invalid board size. The size must be valid (perfect square) and within the valid range.");
+                    return;
+                }
+                Constants.BoardSize = boardSize;
+                Constants.MaxCellValue = boardSize;
                 ValidateAndSolveBoard(boardSize, boardInput);
             }
             catch (Exception e)

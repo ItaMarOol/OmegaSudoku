@@ -1,4 +1,5 @@
-﻿using OmegaSudoku.Models;
+﻿using OmegaSudoku.Logic.Validators;
+using OmegaSudoku.Models;
 using OmegaSudoku.Services.Output;
 using OmegaSudoku.Utilities;
 using System;
@@ -39,10 +40,8 @@ namespace OmegaSudoku.Services.Input
 
                 if (int.TryParse(boardSize, out int size))
                 {
-                    if (Math.Sqrt(size) % 1 == 0 && size >= Constants.MinBoardSize && size <= Constants.MaxBoardSize)
-                    {
+                    if (InputValidator.IsBoardSizeValid(size))
                         return size;
-                    }
                     else
                     {
                         _outputHandler.PrintError("Invalid board size. The size must be valid (perfect square) and within the valid range.");
