@@ -11,13 +11,6 @@ namespace OmegaSudoku.Logic.Validators
 {
     public static class InputValidator
     {
-        private static bool IsInputLengthValid(string input)
-        {
-            if (input.Length != Constants.BoardSize * Constants.BoardSize)
-                return false;
-            return true;
-        }
-
         private static bool IsValidSudokuValues(string input)
         {
             int index;
@@ -31,17 +24,23 @@ namespace OmegaSudoku.Logic.Validators
             }
             return true;
         }
+        private static bool IsInputLengthValid(string input)
+        {
+            if (input.Length != Constants.BoardSize * Constants.BoardSize)
+                return false;
+            return true;
+        }
 
         public static bool IsBasicInputValid(string input)
         {
-            if (!IsInputLengthValid(input))
-            {
-                throw new InvalidBoardSizeException(input.Length);
-            }
             if (!IsValidSudokuValues(input))
             {
                 List<char> invalidChars = GetInvalidInputChars(input);
                 throw new InvalidCellValuesException(invalidChars);
+            }
+            if (!IsInputLengthValid(input))
+            {
+                throw new InvalidBoardSizeException(input.Length);
             }
             int checkedValue = GetDuplicatedInputValue(input);
             if (checkedValue != -1)

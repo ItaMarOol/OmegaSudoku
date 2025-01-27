@@ -1,4 +1,5 @@
 ﻿using OmegaSudoku.Models;
+using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace OmegaSudoku.Logic
             {
                 for (int col = 0; col < board.BoardSize; col++)
                 {
-                    int value = board.GetCellValue(row, col);
+                    char value = (char)(board.GetCellValue(row, col) + Constants.AsciiDigitDiff);
                     boardString.Append(value);
                 }
             }
