@@ -11,7 +11,23 @@ namespace OmegaSudoku.Services.Output
 {
     public class CliOutputHandler : IOutputHandler
     {
-        public void PrintBoard(SudokuBoard board) 
+        public void PrintBoardAsString(SudokuBoard board)
+        {
+            string boardString = BoardFormatter.ConvertBoardToString(board);
+            Console.WriteLine(boardString);
+        }
+
+        public void PrintMessage(string message)
+        {
+            Console.WriteLine($"\n{message}");
+        }
+
+        public void PrintError(string error)
+        {
+            Console.WriteLine($"\nError: {error}");
+        }
+
+        public void PrintBoard(SudokuBoard board)
         {
             string boardString = BoardFormatter.ConvertBoardToString(board);
             PrintBoard(boardString);
@@ -50,15 +66,7 @@ namespace OmegaSudoku.Services.Output
 
         }
 
-        public void PrintMessage(string message)
-        {
-            Console.WriteLine($"\n{message}");
-        }
 
-        public void PrintError(string error)
-        {
-            Console.WriteLine($"\nError: {error}");
-        }
 
         public void ShowMenu()
         {
