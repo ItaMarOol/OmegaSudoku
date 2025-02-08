@@ -25,25 +25,27 @@ namespace OmegaSudoku.Logic
 
         public void Start()
         {
-            _outputHandler.ShowWelcomeMessage();
+            ((CliOutputHandler)_outputHandler).ShowWelcomeMessage();
             while (true)
             {
                 // todo: add ctrl + (x) "treatments"
-                ShowMenu();
+                ((CliOutputHandler)_outputHandler).ShowMenu();
                 string command = _inputHandler.GetInput().ToLower();
 
                 switch (command)
                 {
                     case "1":
                         EnterBoardFromConsole();
+                        _stopwatch.Reset();
                         break;
 
                     case "2":
                         EnterBoardFromFile();
+                        _stopwatch.Reset();
                         break;
 
                     case "3":
-                        _outputHandler.ShowCharsDictionary();
+                        ((CliOutputHandler)_outputHandler).ShowCharsDictionary();
                         break;
 
                     case "4":
@@ -61,11 +63,11 @@ namespace OmegaSudoku.Logic
         {
             try
             {
-                int boardSize = GetBoardSize();
+                int boardSize = ((CliInputHandler)_inputHandler).GetBoardSize();
                 Constants.BoardSize = boardSize;
                 Constants.MaxCellValue = boardSize; 
-                string boardInput = GetBoardInput(boardSize);
-                ValidateAndSolveBoard(boardSize, boardInput);
+                string boardInput = ((CliInputHandler)_inputHandler).GetBoardInput(boardSize);
+                ValidateAndSolveBoard(boardSize, boardInput, false);
             }
             catch (Exception e)
             {
@@ -80,22 +82,17 @@ namespace OmegaSudoku.Logic
                 _outputHandler.PrintMessage("Please enter the file path to load the Sudoku board: ");
                 string filePath = _inputHandler.GetInput().Trim();
 
-                if (!File.Exists(filePath))
-                {
-                    _outputHandler.PrintError("File not found. Please check the path and try again.");
-                    return;
-                }
+                FileInputHandler fileInputHandler = new FileInputHandler(filePath);
 
-                string boardInput = File.ReadAllText(filePath).Trim();
+                string boardInput = fileInputHandler.GetInput();
                 int boardSize = (int)Math.Sqrt(boardInput.Length);
                 if (!InputValidator.IsBoardSizeValid(boardSize))
                 {
-                    _outputHandler.PrintError("Invalid board size. The size must be valid (perfect square) and within the valid range.");
-                    return;
+                    throw new InvalidBoardSizeException(boardSize);
                 }
                 Constants.BoardSize = boardSize;
                 Constants.MaxCellValue = boardSize;
-                ValidateAndSolveBoard(boardSize, boardInput);
+                ValidateAndSolveBoard(boardSize, boardInput, true, filePath);
             }
             catch (Exception e)
             {
@@ -103,35 +100,26 @@ namespace OmegaSudoku.Logic
             }
         }
 
-        private void ValidateAndSolveBoard(int boardSize, string boardInput)
+        private void ValidateAndSolveBoard(int boardSize, string boardInput, bool isFromFile, string? filePath = null)
         {
             InputValidator.IsBasicInputValid(boardInput);
             SudokuBoard board = new SudokuBoard(boardSize, boardInput);
             _outputHandler.PrintMessage("\nInitial sudoku board:");
-            _outputHandler.PrintBoard(board);
+            ((CliOutputHandler)_outputHandler).PrintBoard(board);
 
             _stopwatch.Start();
             SudokuSolver.Solve(board); 
             _stopwatch.Stop();
+
             _outputHandler.PrintMessage("\nSolved sudoku board:");
-            _outputHandler.PrintBoard(board); // todo: if the given sudoku is from a file, print the solved *string* to the file
+            ((CliOutputHandler)_outputHandler).PrintBoard(board); // todo: if the given sudoku is from a file, print the solved *string* to the file
             _outputHandler.PrintMessage($"Solving time: {_stopwatch.ElapsedMilliseconds} ms");
-            _stopwatch.Reset();
+            if (isFromFile)
+            {
+                FileOutputHandler fileOutputHandler = new FileOutputHandler(filePath);
+                fileOutputHandler.PrintBoardAsString(board);
+            }
         }
 
-
-        private void ShowMenu()
-        {
-            _outputHandler.ShowMenu();
-        }
-        private int GetBoardSize()
-        {
-            return _inputHandler.GetBoardSize();
-        }
-
-        private string GetBoardInput(int boardSize)
-        {
-            return _inputHandler.GetBoardInput(boardSize);
-        }
     }
 }
