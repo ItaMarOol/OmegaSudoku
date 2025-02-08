@@ -17,7 +17,7 @@ namespace OmegaSudoku.Logic
         /// Setting all the board cells values by backtracking algorithm.
         /// </summary>
         /// <returns> True if the sudoku board has been filled correctly with values. else - returns false </returns>
-        private static bool BackTrack(SudokuBoard board)
+        private static bool SolveWithBackTrack(SudokuBoard board)
         {
             List<BoardCell> unassignedCells = new List<BoardCell>();
 
@@ -40,22 +40,18 @@ namespace OmegaSudoku.Logic
                 {
                     Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
-
-
-                    SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
-                    board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-                    SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
                     try 
                     { 
-                        SudokuHeuristics.ApplyHiddenPairs(board); 
+                        SudokuHeuristics.ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
                     }
-                    catch (Exception e) // hidden pairs heuristics detected invalid board
+                    catch // hidden pairs heuristics detected an invalid board
                     {
                         board.SetCellValue(lowestRow, lowestCol, 0);
                         board.RestoreBoardState(savedState);
+                        continue; // countinue to the next possible value (if there is one)
                     }
 
-                    if (BackTrack(board))
+                    if (SolveWithBackTrack(board))
                         return true;
 
                     // the possible value is incorrect
@@ -76,14 +72,19 @@ namespace OmegaSudoku.Logic
             bool flag;
 
             board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-            SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
-            SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
-            try { SudokuHeuristics.ApplyHiddenPairs(board); }
-            catch { throw new UnsolvableBoardException(); }
-            flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
+            try 
+            { 
+                SudokuHeuristics.ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
+            }
+            catch // hidden pairs heuristics detected an invalid board
+            {
+                throw new UnsolvableBoardException(); 
+            }
+            flag = SolveWithBackTrack(board); // trying to solve the sudoku with backtracking algorithm.
 
             if (!flag)
                 throw new UnsolvableBoardException();
+
             return flag;
         }
 
