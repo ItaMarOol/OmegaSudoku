@@ -112,7 +112,7 @@ namespace OmegaSudoku.Logic
             _stopwatch.Stop();
 
             _outputHandler.PrintMessage("\nSolved sudoku board:");
-            ((CliOutputHandler)_outputHandler).PrintBoard(board); // todo: if the given sudoku is from a file, print the solved *string* to the file
+            ((CliOutputHandler)_outputHandler).PrintBoard(board); 
             _outputHandler.PrintMessage($"Solving time: {_stopwatch.ElapsedMilliseconds} ms");
             if (isFromFile)
             {

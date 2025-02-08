@@ -45,7 +45,15 @@ namespace OmegaSudoku.Logic
                     SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
                     board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
                     SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
-
+                    try 
+                    { 
+                        SudokuHeuristics.ApplyHiddenPairs(board); 
+                    }
+                    catch (Exception e) // hidden pairs heuristics detected invalid board
+                    {
+                        board.SetCellValue(lowestRow, lowestCol, 0);
+                        board.RestoreBoardState(savedState);
+                    }
 
                     if (BackTrack(board))
                         return true;
@@ -70,6 +78,8 @@ namespace OmegaSudoku.Logic
             board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
             SudokuHeuristics.ApplyNakedPairs(board); // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
             SudokuHeuristics.ApplyHiddenSingles(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
+            try { SudokuHeuristics.ApplyHiddenPairs(board); }
+            catch { throw new UnsolvableBoardException(); }
             flag = BackTrack(board); // trying to solve the sudoku with backtracking algorithm.
 
             if (!flag)

@@ -9,7 +9,7 @@ namespace OmegaSudoku.Exceptions
     class DuplicateValueException : Exception
     {
         public DuplicateValueException(int duplicatedValue)
-            : base($"Duplicated value in the same row/column/block entered: {duplicatedValue}")
+            : base($"Duplicated value in the same row/column/block entered: '{duplicatedValue}'")
         { }
     }
 }
