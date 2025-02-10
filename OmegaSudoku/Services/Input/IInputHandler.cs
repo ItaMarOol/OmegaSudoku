@@ -9,7 +9,6 @@ namespace OmegaSudoku.Services.Input
 {
     public interface IInputHandler
     {
-        string GetInput();
-
+        string GetInput(); // gets user input string
     }
 }

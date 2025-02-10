@@ -21,7 +21,6 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            int boxLength = (int)Math.Sqrt(boardSize);
 
             for (int row = 0; row < boardSize; row++)
             {
@@ -33,11 +32,11 @@ namespace OmegaSudoku.Logic.Heuristics
                 changeFlag |= ApplyNakedPairsInColumn(board, col);
             }
 
-            for (int boxRow = 0; boxRow < boardSize; boxRow += boxLength)
+            for (int blockRow = 0; blockRow < boardSize; blockRow += board.BlockSize)
             {
-                for (int boxCol = 0; boxCol < boardSize; boxCol += boxLength)
+                for (int blockCol = 0; blockCol < boardSize; blockCol += board.BlockSize)
                 {
-                    changeFlag |= ApplyNakedPairsInBlock(board, boxRow, boxCol);
+                    changeFlag |= ApplyNakedPairsInBlock(board, board.BlockSize, blockCol);
                 }
             }
             return changeFlag;
@@ -133,7 +132,6 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            int boxLength = (int)Math.Sqrt(boardSize);
             List<BoardCell> emptyCells = board.GetEmptyCellsInBlock(blockStartRow, blockStartCol);
 
             // looking for two empty cells with the same possibilities pair
@@ -150,9 +148,9 @@ namespace OmegaSudoku.Logic.Heuristics
                     if (possibilities1.SetEquals(possibilities2) && possibilities1.Count == 2)
                     {
                         // removing the possibilities pair from the empty cell in the given block
-                        for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+                        for (int row = blockStartRow; row < blockStartRow + board.BlockSize; row++)
                         {
-                            for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                            for (int col = blockStartCol; col < blockStartCol + board.BlockSize; col++)
                             {
                                 if ((row != cell1.Row || col != cell1.Col) && (row != cell2.Row || col != cell2.Col))
                                 {

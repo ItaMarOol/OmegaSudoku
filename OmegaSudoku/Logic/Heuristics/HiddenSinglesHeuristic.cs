@@ -22,7 +22,6 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            int boxLength = (int)Math.Sqrt(boardSize);
 
             // Apply hidden singles for rows
             for (int row = 0; row < boardSize; row++)
@@ -37,11 +36,11 @@ namespace OmegaSudoku.Logic.Heuristics
             }
 
             // Apply hidden singles for blocks
-            for (int boxRow = 0; boxRow < boardSize; boxRow += boxLength)
+            for (int blockRow = 0; blockRow < boardSize; blockRow += board.BlockSize)
             {
-                for (int boxCol = 0; boxCol < boardSize; boxCol += boxLength)
+                for (int blockCol = 0; blockCol < boardSize; blockCol += board.BlockSize)
                 {
-                    changeFlag |= ApplyHiddenSinglesInBlock(board, boxRow, boxCol);
+                    changeFlag |= ApplyHiddenSinglesInBlock(board, blockRow, blockCol);
                 }
             }
             return changeFlag;
@@ -158,7 +157,6 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            int boxLength = (int)Math.Sqrt(boardSize);
 
             // set with all the used values in the block
             HashSet<int> usedValues = board.GetBlockUsedValuesSet(blockStartRow, blockStartCol);
@@ -171,9 +169,9 @@ namespace OmegaSudoku.Logic.Heuristics
                     bool flag = false;
                     int possibleCellRow = -1;
                     int possibleCellCol = -1;
-                    for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+                    for (int row = blockStartRow; row < blockStartRow + board.BlockSize; row++)
                     {
-                        for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                        for (int col = blockStartCol; col < blockStartCol + board.BlockSize; col++)
                         {
                             var cell = board.GetCell(row, col);
                             if (cell.IsEmpty() && cell.GetPossibilities().Contains(value))

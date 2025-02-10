@@ -8,16 +8,22 @@ using System.Diagnostics;
 
 public class Program
 {
+
+    /// <summary>
+    /// The main entry point for the application. It sets up the necessary input and output handlers,
+    /// initializes the Sudoku controller, and starts the game by running the controller's logic.
+    /// </summary>
     static void Main(string[] args)
     {
+        // Initialize the input handler for CLI-based input
         IInputHandler inputHandler = new CliInputHandler();
+
+        // Initialize the output handler for CLI-based output
         IOutputHandler outputHandler = new CliOutputHandler();
 
+        // Create and run the Sudoku controller
         SudokuController controller = new SudokuController(inputHandler, outputHandler);
-         controller.Start();
-/*        SudokuBoard board = new SudokuBoard(9, "000030000060000400007050800000406000000900000050010300400000020000300000000000000");
-        SudokuSolver.Solve(board);
-        CliOutputHandler cli = new CliOutputHandler();
-        cli.PrintBoard(board);*/
+        controller.Run();
+
     }
 }

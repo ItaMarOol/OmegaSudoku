@@ -11,28 +11,57 @@ namespace OmegaSudoku.Services.Output
 {
     public class CliOutputHandler : IOutputHandler
     {
+        /// <summary>
+        /// An empty constructor to initialize a CliOutputHandler object.
+        /// </summary>
+        public CliOutputHandler() { }
+
+        /// <summary>
+        /// Prints the Sudoku board as a formatted string.
+        /// </summary>
+        /// <param name="board">The Sudoku board to be printed.</param>
         public void PrintBoardAsString(SudokuBoard board)
         {
             string boardString = BoardFormatter.ConvertBoardToString(board);
             Console.WriteLine(boardString);
         }
 
+        /// <summary>
+        /// Prints a general message in yellow color.
+        /// </summary>
+        /// <param name="message">The message to be printed.</param>
         public void PrintMessage(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\n{message}");
+            Console.ResetColor();
         }
 
+        /// <summary>
+        /// Prints an error message in red color.
+        /// </summary>
+        /// <param name="error">The error message to be printed.</param>
         public void PrintError(string error)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"\nError: {error}");
+            Console.ResetColor();
         }
 
+        /// <summary>
+        /// Prints the Sudoku board in a formatted layout.
+        /// </summary>
+        /// <param name="board">The Sudoku board to be printed.</param>
         public void PrintBoard(SudokuBoard board)
         {
             string boardString = BoardFormatter.ConvertBoardToString(board);
             PrintBoard(boardString);
         }
 
+        /// <summary>
+        /// Prints the Sudoku board as a string with proper formatting.
+        /// </summary>
+        /// <param name="board">The Sudoku board to be printed as a string.</param>
         public void PrintBoard(string board)
         {
             board = board.Replace('0', '.');
@@ -67,7 +96,9 @@ namespace OmegaSudoku.Services.Output
         }
 
 
-
+        /// <summary>
+        /// Displays the main menu with options for the user to choose from.
+        /// </summary>
         public void ShowMenu()
         {
             Console.WriteLine();
@@ -78,15 +109,26 @@ namespace OmegaSudoku.Services.Output
             Console.Write("\nPlease choose an option: ");
         }
 
+        /// <summary>
+        /// Requests the user to input a Sudoku board of the given size.
+        /// </summary>
+        /// <param name="boardSize">The size of the board.</param>
         public void RequestBoardInput(int boardSize)
         {
             Console.WriteLine($"Please enter {boardSize}x{boardSize} sudoku board as one string (empty cells represented by '0'): ");
         }
+
+        /// <summary>
+        /// Requests the user to input a valid Sudoku board size.
+        /// </summary>
         public void RequestBoardSize()
         {
             Console.Write($"Please enter the sudoku board size (has to be a value between {Constants.MinBoardSize}-{Constants.MaxBoardSize} that it's square root is an integer): ");
         }
 
+        /// <summary>
+        /// Displays a welcome message when the program starts.
+        /// </summary>
         public void ShowWelcomeMessage()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -94,6 +136,9 @@ namespace OmegaSudoku.Services.Output
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Displays the Sudoku character dictionary mapping characters to their digit values.
+        /// </summary>
         public void ShowCharsDictionary()
         {
             Console.WriteLine("\nSudoku chars dictionary:");

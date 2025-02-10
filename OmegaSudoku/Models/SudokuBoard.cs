@@ -10,39 +10,25 @@ namespace OmegaSudoku.Models
     public class SudokuBoard
     {
         public int BoardSize { get; private set; }
+        public int BlockSize { get; private set; }
         private Dictionary<(int, int), BoardCell> _board { get; set; }
         private List<BoardCell> _emptyCells;
 
 
-        public SudokuBoard(int boardSize)
-        {
-
-            BoardSize = boardSize;
-            _board = new Dictionary<(int, int), BoardCell>();
-            _emptyCells = new List<BoardCell>();
-
-            // cells initialization
-            for (int row = 0; row < BoardSize; row++)
-            {
-                for (int col = 0; col < BoardSize; col++)
-                {
-                    var boardCell = new BoardCell(row, col, BoardSize, 0);
-                    _board.Add((row, col), boardCell);
-                    _emptyCells.Add(boardCell);
-                }
-            }
-        }
-
-
+        /// <summary>
+        /// Constructor to initialize a SudokuBoard object with a given board size and an initial board string.
+        /// The constructor creates a board of the given size and sets up the initial values of the board based on the provided string.
+        /// A '0' in the string represents an empty cell, and other digits represent filled cells.
+        /// </summary>
+        /// <param name="boardSize">The size of the Sudoku board.</param>
+        /// <param name="boardString">A string representing the initial board. Each '0' in the string represents an empty cell and any other digit represents a filled cell.</param>
         public SudokuBoard(int boardSize, string boardString)
         {
-
+            int value, charIndex = 0;
             BoardSize = boardSize;
+            BlockSize = (int)Math.Sqrt(boardSize);
             _board = new Dictionary<(int, int), BoardCell>();
             _emptyCells = new List<BoardCell>();
-
-            int index = 0;
-            int remainingCells = BoardSize * boardSize - boardString.Length;
 
             // cells initialization
             for (int row = 0; row < BoardSize; row++)
@@ -50,26 +36,37 @@ namespace OmegaSudoku.Models
                 for (int col = 0; col < BoardSize; col++)
                 {
                     BoardCell boardCell;
-                    int value = boardString[index] - Constants.AsciiDigitDiff;
+                    value = boardString[charIndex] - Constants.AsciiDigitDiff;
                     boardCell = new BoardCell(row, col, BoardSize, value);
-                    if (value == 0)
-                        _emptyCells.Add(boardCell);
-                    _board.Add((row, col), boardCell);
-                    index++;
-
-
+                    if (value == 0) // empty cell
+                        _emptyCells.Add(boardCell); // adding each empty cell the the empty cells list
+                    _board.Add((row, col), boardCell); // adding each cell the the board
+                    charIndex++;
                 }
             }
-        }
-
-        public bool IsBoardFull()
-        {
-            return _emptyCells.Count == 0;
         }
 
         public BoardCell GetCell(int row, int col) 
         {
             return _board[(row,col)];
+        }
+
+        public List<BoardCell> GetEmptyCellsInRow(int row)
+        {
+            return _emptyCells.Where(cell => cell.Row == row).ToList();
+        }
+
+        public List<BoardCell> GetEmptyCellsInColumn(int col)
+        {
+            return _emptyCells.Where(cell => cell.Col == col).ToList();
+        }
+
+        public List<BoardCell> GetEmptyCellsInBlock(int blockStartRow, int blockStartCol)
+        {
+            return _emptyCells.Where(cell =>
+                cell.Row >= blockStartRow && cell.Row < blockStartRow + BlockSize &&
+                cell.Col >= blockStartCol && cell.Col < blockStartCol + BlockSize
+            ).ToList();
         }
 
         public int GetCellValue(int row, int col)
@@ -131,13 +128,12 @@ namespace OmegaSudoku.Models
 
         public bool IsValueInBlock(int row, int col, int value)
         {
-            int boxSize = (int)Math.Sqrt(BoardSize);
-            int boxFirstRow = (row / boxSize) * boxSize;
-            int boxFirstCol = (col / boxSize) * boxSize;
+            int boxFirstRow = (row / BlockSize) * BlockSize;
+            int boxFirstCol = (col / BlockSize) * BlockSize;
 
-            for (int r = boxFirstRow; r < boxFirstRow + boxSize; r++)
+            for (int r = boxFirstRow; r < boxFirstRow + BlockSize; r++)
             {
-                for (int c = boxFirstCol; c < boxFirstCol + boxSize; c++)
+                for (int c = boxFirstCol; c < boxFirstCol + BlockSize; c++)
                 {
                     var cell = _board[(r, c)];
                     if (cell.GetValue() == value)
@@ -148,11 +144,24 @@ namespace OmegaSudoku.Models
             return false;
         }
 
+        /// <summary>
+        /// Checks if a value can be placed in a specific cell without violating Sudoku rules.
+        /// Verifies the value does not appear in the same row / column / block.
+        /// </summary>
+        /// <param name="row">The row of the target cell.</param>
+        /// <param name="col">The column of the target cell.</param>
+        /// <param name="value">The value to check for placement.</param>
+        /// <returns>True if the value can be placed without violating Sudoku rules, else - false.</returns>
         public bool CanValueBePlaced(int row, int col, int value)
         {
             return !IsValueInRow(row,value) && !IsValueInCol(col,value) && !IsValueInBlock(row,col,value);
         }
 
+        /// <summary>
+        /// Checks if any cell on the board has zero possible values.
+        /// It used to indicate an unsolvable board state.
+        /// </summary>
+        /// <returns>True if a cell has no possible values, false if all cells have at least one possible value.</returns>
         public bool HasZeroCountCell()
         {
             for (int row = 0; row < BoardSize; row++)
@@ -166,11 +175,15 @@ namespace OmegaSudoku.Models
             return false;
         }
 
+        public bool IsBoardFull()
+        {
+            return _emptyCells.Count == 0;
+        }
+
         /// <summary>
         /// updates a given Sudoku board cell his row value possibilities.
         /// </summary>
         /// <param name="cell"> The Sudoku board cell to be updated. </param>
-        /// <returns></returns>
         public void UpdatePossibleRowValues(BoardCell cell)
         {
             int row = cell.Row;
@@ -188,7 +201,6 @@ namespace OmegaSudoku.Models
         /// updates a given Sudoku board cell his column value possibilities.
         /// </summary>
         /// <param name="cell"> The Sudoku board cell to be updated. </param>
-        /// <returns></returns>
         public void UpdatePossibleColumnValues(BoardCell cell)
         {
             int col = cell.Col;
@@ -206,17 +218,14 @@ namespace OmegaSudoku.Models
         /// updates a given Sudoku board cell his block value possibilities.
         /// </summary>
         /// <param name="cell"> The Sudoku board cell to be updated. </param>
-        /// <returns></returns>
         public void UpdatePossibleBlockValues(BoardCell cell)
         {
+            int boxFirstRow = (cell.Row / BlockSize) * BlockSize;
+            int boxFirstCol = (cell.Col / BlockSize) * BlockSize;
 
-            int boxSize = (int)Math.Sqrt(BoardSize);
-            int boxFirstRow = (cell.Row / boxSize) * boxSize;
-            int boxFirstCol = (cell.Col / boxSize) * boxSize;
-
-            for (int row = boxFirstRow; row < boxFirstRow + boxSize; row++)
+            for (int row = boxFirstRow; row < boxFirstRow + BlockSize; row++)
             {
-                for (int col = boxFirstCol; col < boxFirstCol + boxSize; col++)
+                for (int col = boxFirstCol; col < boxFirstCol + BlockSize; col++)
                 {
                     if (col != cell.Col && row != cell.Row)
                     {
@@ -231,7 +240,6 @@ namespace OmegaSudoku.Models
         /// updates a given Sudoku board cell all of his value possibilities.
         /// </summary>
         /// <param name="cell"> The Sudoku board cell to be updated. </param>
-        /// <returns></returns>
         public void UpdatePossiableValues(BoardCell cell)
         {
             UpdatePossibleRowValues(cell);
@@ -242,7 +250,6 @@ namespace OmegaSudoku.Models
         /// <summary>
         /// updates all of a sudoku board cells possibilities.
         /// </summary>
-        /// <returns></returns>
         public void UpdateAllCellsPossibilities()
         { 
             for (int row = 0; row < BoardSize; row++)
@@ -278,35 +285,11 @@ namespace OmegaSudoku.Models
             return lowestCell;
         }
 
-        public List<BoardCell> GetEmptyCells()
-        {
-            return _emptyCells;
-        }
-
-        public List<BoardCell> GetEmptyCellsInRow(int row)
-        {
-            return _emptyCells.Where(cell => cell.Row == row).ToList();
-        }
-
-        public List<BoardCell> GetEmptyCellsInColumn(int col)
-        {
-            return _emptyCells.Where(cell => cell.Col == col).ToList();
-        }
-
-        public List<BoardCell> GetEmptyCellsInBlock(int blockStartRow, int blockStartCol)
-        {
-            int boxLength = (int)Math.Sqrt(BoardSize);
-            return _emptyCells.Where(cell =>
-                cell.Row >= blockStartRow && cell.Row < blockStartRow + boxLength &&
-                cell.Col >= blockStartCol && cell.Col < blockStartCol + boxLength
-            ).ToList();
-        }
-
         /// <summary>
         /// returns a set with all the unused values in a given board row.
         /// </summary>
         /// <param name="row"> The board row to be searched. </param>
-        /// <returns>  returns a set with all the unused values in the board row.</returns>
+        /// <returns> returns a set with all the unused values in the board row.</returns>
         public HashSet<int> GetRowUnusedValuesSet(int row)
         {
             HashSet<int> unusedValues = new HashSet<int>();
@@ -330,7 +313,7 @@ namespace OmegaSudoku.Models
         /// returns a set with all the unused values in a given board column.
         /// </summary>
         /// <param name="col"> The board column to be searched. </param>
-        /// <returns>  returns a set with all the unused values in the board column.</returns>
+        /// <returns> returns a set with all the unused values in the board column.</returns>
         public HashSet<int> GetColumnUnusedValuesSet(int col)
         {
             HashSet<int> unusedValues = new HashSet<int>();
@@ -355,17 +338,16 @@ namespace OmegaSudoku.Models
         /// </summary>
         /// <param name="blockStartRow"> The board starting row of te block to be searched. </param>
         /// <param name="blockStartCol"> The board starting column of te block to be searched. </param>
-        /// <returns>  returns a set with all the unused values in the board block.</returns>
+        /// <returns> returns a set with all the unused values in the board block.</returns>
         public HashSet<int> GetBlockUnusedValuesSet(int blockStartRow, int blockStartCol)
         {
             HashSet<int> unusedValues = new HashSet<int>();
-            int boxLength = (int)Math.Sqrt(BoardSize);
             unusedValues.UnionWith(Enumerable.Range(1, BoardSize)); // initializing the set with all the possibilities
 
             // removing the placed values in the row from the row possibilities set
-            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+            for (int row = blockStartRow; row < blockStartRow + BlockSize; row++)
             {
-                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                for (int col = blockStartCol; col < blockStartCol + BlockSize; col++)
                 {
                     var cell = GetCell(row, col);
                     if (!cell.IsEmpty())
@@ -382,7 +364,7 @@ namespace OmegaSudoku.Models
         /// returns a set with all the used values in a given board row.
         /// </summary>
         /// <param name="row"> The board row to be searched. </param>
-        /// <returns>  returns a set with all the used values in the board row.</returns>
+        /// <returns> returns a set with all the used values in the board row.</returns>
         public HashSet<int> GetRowUsedValuesSet(int row)
         {
             HashSet<int> usedValues = new HashSet<int>();
@@ -405,7 +387,7 @@ namespace OmegaSudoku.Models
         /// returns a set with all the used values in a given board column.
         /// </summary>
         /// <param name="col"> The board column to be searched. </param>
-        /// <returns>  returns a set with all the used values in the board column.</returns>
+        /// <returns> returns a set with all the used values in the board column.</returns>
         public HashSet<int> GetColumnUsedValuesSet(int col)
         {
             HashSet<int> usedValues = new HashSet<int>();
@@ -429,16 +411,15 @@ namespace OmegaSudoku.Models
         /// </summary>
         /// <param name="blockStartRow"> The board starting row of te block to be searched. </param>
         /// <param name="blockStartCol"> The board starting column of te block to be searched. </param>
-        /// <returns>  returns a set with all the used values in the board block.</returns>
+        /// <returns> returns a set with all the used values in the board block.</returns>
         public HashSet<int> GetBlockUsedValuesSet(int blockStartRow, int blockStartCol)
         {
             HashSet<int> usedValues = new HashSet<int>();
-            int boxLength = (int)Math.Sqrt(BoardSize);
 
             // removing the placed values in the row from the row possibilities set
-            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+            for (int row = blockStartRow; row < blockStartRow + BlockSize; row++)
             {
-                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                for (int col = blockStartCol; col < blockStartCol + BlockSize; col++)
                 {
                     var cell = GetCell(row, col);
                     if (!cell.IsEmpty())
@@ -452,7 +433,7 @@ namespace OmegaSudoku.Models
         }
 
         /// <summary>
-        /// saving the board state into a dictionary with cell as the key and possibilities as the value.
+        /// Saves the board state into a dictionary with cell as the key and possibilities as the value.
         /// </summary>
         /// <returns>A dictionary with the current board state.</returns>
         public Dictionary<BoardCell, HashSet<int>> SaveBoardState()
@@ -468,10 +449,9 @@ namespace OmegaSudoku.Models
         }
 
         /// <summary>
-        /// restoring a board state by setting the current board cells possibilities from the saved state.
+        /// Restores a board state by setting the current board cells possibilities from the saved state.
         /// </summary>
-        /// <param name="savedState"> The Sudoku board state to apply. </param>
-        /// <returns></returns>
+        /// <param name="savedState"> The Sudoku board state to apply.</param>
         public void RestoreBoardState(Dictionary<BoardCell, HashSet<int>> savedState)
         {
             foreach (var savedCell in savedState)

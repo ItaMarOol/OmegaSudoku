@@ -12,6 +12,12 @@ namespace OmegaSudoku.Logic.Validators
 {
     public static class InputValidator
     {
+
+        /// <summary>
+        /// Validates if the input string contains only valid Sudoku values (0-9).
+        /// </summary>
+        /// <param name="input">The input string representing the Sudoku board.</param>
+        /// <returns>True if the input string contains valid values. else - false.</returns>
         private static bool IsValidSudokuValues(string input)
         {
             int index;
@@ -25,6 +31,12 @@ namespace OmegaSudoku.Logic.Validators
             }
             return true;
         }
+
+        /// <summary>
+        /// Validates if the length of the input string matches the required board size.
+        /// </summary>
+        /// <param name="input">The input string representing the Sudoku board.</param>
+        /// <returns>True if the input length is valid. else - false.</returns>
         private static bool IsInputLengthValid(string input)
         {
             if (input.Length != Constants.BoardSize * Constants.BoardSize)
@@ -32,6 +44,11 @@ namespace OmegaSudoku.Logic.Validators
             return true;
         }
 
+        /// <summary>
+        /// Validates if the board size is within valid limits and is a perfect square.
+        /// </summary>
+        /// <param name="boardSize">The size of the Sudoku board.</param>
+        /// <returns>True if the board size is valid. else - false.</returns>
         public static bool IsBoardSizeValid(int boardSize)
         {
             if (Math.Sqrt(boardSize) % 1 == 0 && boardSize >= Constants.MinBoardSize && boardSize <= Constants.MaxBoardSize)
@@ -41,6 +58,14 @@ namespace OmegaSudoku.Logic.Validators
             return false;
         }
 
+        /// <summary>
+        /// Validates if the input string is a valid Sudoku board input. Checking for valid values, length, and duplicate values.
+        /// </summary>
+        /// <param name="input">The input string representing the Sudoku board.</param>
+        /// <returns>True if the input is valid. else - throws exceptions.</returns>
+        /// <exception cref="InvalidCellValuesException">Thrown when the input contains invalid characters.</exception>
+        /// <exception cref="InvalidBoardSizeException">Thrown when the input length is incorrect for the board size.</exception>
+        /// <exception cref="DuplicateValueException">Thrown when a duplicate value is found in the input.</exception>
         public static bool IsBasicInputValid(string input)
         {
             if (!IsValidSudokuValues(input))
@@ -58,6 +83,11 @@ namespace OmegaSudoku.Logic.Validators
             return true;
         }
 
+        /// <summary>
+        /// returns a list of invalid characters from the input string.
+        /// </summary>
+        /// <param name="input">The input string representing the Sudoku board.</param>
+        /// <returns>A list of invalid characters found in the input.</returns>
         private static List<char> GetInvalidInputChars(string input)
         {
             int index;
@@ -73,6 +103,11 @@ namespace OmegaSudoku.Logic.Validators
             return invalid;
         }
 
+        /// <summary>
+        /// Checks for duplicate values in the input string.
+        /// </summary>
+        /// <param name="input">The input string representing the Sudoku board.</param>
+        /// <returns>The duplicated value if found. else - (-1).</returns>
         private static int GetDuplicatedInputValue(string input)
         {
             int row, col;

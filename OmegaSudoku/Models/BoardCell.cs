@@ -13,16 +13,31 @@ namespace OmegaSudoku.Models
         private HashSet<int> _possibleValues { get; set; }
 
 
-        public BoardCell(int row, int col, int Boardsize, int value)
+        /// <summary>
+        /// Constructor to initialize a BoardCell object with a specific row, column, and value.
+        /// If the value is 0 (empty), all possible values between 1 and the board size are added to the possible values set.
+        /// If the value is not a zero (filled cell), only that value is added to the possible values set.
+        /// </summary>
+        /// <param name="row">The row of the cell on the Sudoku board.</param>
+        /// <param name="col">The column of the cell on the Sudoku board.</param>
+        /// <param name="boardSize">The size of the Sudoku board.</param>
+        /// <param name="value">The initial value of the cell. If the value is 0 (empty), possible values are set based on the board size.</param>
+        public BoardCell(int row, int col, int boardSize, int value)
         {
             Row = row;
             Col = col;
             _possibleValues = new HashSet<int>();
             if (value == 0)
-                InitializePossibilities(Boardsize); // adding all possible cell values
+                InitializePossibilities(boardSize); // adding all possible cell values
             else
                 _possibleValues.Add(value);
         }
+
+        /// <summary>
+        /// Initializes the possible values for an empty cell. It fills the possibilities with all the values between 1 and the board size (inclusive).
+        /// This is called when the cell is empty (value is 0).
+        /// </summary>
+        /// <param name="boardSize">The size of the Sudoku board.</param>
         private void InitializePossibilities(int boardSize)
         {
             _possibleValues.UnionWith(Enumerable.Range(1, boardSize));
@@ -63,7 +78,6 @@ namespace OmegaSudoku.Models
         { 
             return _possibleValues.Count; 
         }
-
 
         public HashSet<int> GetPossibilities() { return _possibleValues; }
         public void SetPossibilities(HashSet<int> possibilities) { _possibleValues = possibilities; }

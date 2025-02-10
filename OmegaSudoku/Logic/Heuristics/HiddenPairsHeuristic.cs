@@ -23,7 +23,6 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            int boxLength = (int)Math.Sqrt(boardSize);
 
             for (int row = 0; row < boardSize; row++)
             {
@@ -35,11 +34,11 @@ namespace OmegaSudoku.Logic.Heuristics
                 changeFlag |= ApplyHiddenPairsInColumn(board, col);
             }
 
-            for (int boxRow = 0; boxRow < boardSize; boxRow += boxLength)
+            for (int blockRow = 0; blockRow < boardSize; blockRow += board.BlockSize)
             {
-                for (int boxCol = 0; boxCol < boardSize; boxCol += boxLength)
+                for (int blockCol = 0; blockCol < boardSize; blockCol += board.BlockSize)
                 {
-                    changeFlag |= ApplyHiddenPairsInBlock(board, boxRow, boxCol);
+                    changeFlag |= ApplyHiddenPairsInBlock(board, blockRow, blockCol);
                 }
             }
             return changeFlag;
@@ -51,6 +50,7 @@ namespace OmegaSudoku.Logic.Heuristics
         /// <param name="board"> The Sudoku board to be applied. </param>
         /// <param name="row"> The Sudoku board row to apply the hidden pair heuristic. </param>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
+        /// <exception cref="UnsolvableBoardException">Thrown when there are more than 2 values that have to be in exactly 2 cells, which means that the board is unsolvable.</exception>
         public static bool ApplyHiddenPairsInRow(SudokuBoard board, int row)
         {
             bool changeFlag = false, foundFlag = false;
@@ -110,6 +110,7 @@ namespace OmegaSudoku.Logic.Heuristics
         /// <param name="board"> The Sudoku board to be applied. </param>
         /// <param name="col"> The Sudoku board column to apply the hidden pair heuristic. </param>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
+        /// <exception cref="UnsolvableBoardException">Thrown when there are more than 2 values that have to be in exactly 2 cells, which means that the board is unsolvable.</exception>
         public static bool ApplyHiddenPairsInColumn(SudokuBoard board, int col)
         {
             bool changeFlag = false, foundFlag = false;
@@ -170,11 +171,11 @@ namespace OmegaSudoku.Logic.Heuristics
         /// <param name="blockStartRow"> The Sudoku board start row of the block to apply the hidden pair heuristic. </param>
         /// <param name="blockStartCol"> The Sudoku board start column of the block to apply the hidden pair huristic. </param>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
+        /// <exception cref="UnsolvableBoardException">Thrown when there are more than 2 values that have to be in exactly 2 cells, which means that the board is unsolvable.</exception>
         public static bool ApplyHiddenPairsInBlock(SudokuBoard board, int blockStartRow, int blockStartCol)
         {
             bool changeFlag = false, foundFlag = false;
             int boardSize = board.BoardSize, valueIndex, firstValueIndex, secondValueIndex, firstValue, secondValue;
-            int boxLength = (int)Math.Sqrt(boardSize);
 
             List<BoardCell> emptyCells = board.GetEmptyCellsInBlock(blockStartRow, blockStartCol);
 
@@ -279,7 +280,6 @@ namespace OmegaSudoku.Logic.Heuristics
         /// <param name="cellsListsArray"> Array of cells lists. Each array index (+1) represents a possible value. Each value has a list with all the cells that includes him </param>
         /// <param name="unusedValues"> Set of all the unused values in a sudoku board's row/column/block </param>
         /// <param name="emptyCells"> List of all the empty cells in a sudoku board's row/column/block. </param>
-        /// <returns></returns>
         private static void AddPossibleCellsToArray(List<BoardCell>[] cellsListsArray, HashSet<int> unusedValues, List<BoardCell> emptyCells)
         {
             foreach (int value in unusedValues)

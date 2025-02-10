@@ -8,6 +8,10 @@ namespace OmegaSudoku.Exceptions
 {
     class UnsolvableBoardException : Exception
     {
+
+        /// <summary>
+        /// Constructor to initialize an UnsolvableBoardException with a default message that the board is unsolvable.
+        /// </summary>
         public UnsolvableBoardException()
             : base("Unsolvable board entered")
         { }
