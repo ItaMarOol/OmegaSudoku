@@ -1,7 +1,6 @@
 ﻿using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Output;
-using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
