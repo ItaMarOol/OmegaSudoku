@@ -55,12 +55,12 @@ namespace OmegaSudoku.Logic.Heuristics
             List<BoardCell> emptyCells = board.GetEmptyCellsInRow(row);
 
             // looking for two empty cells with the same possibilities pair
-            for (int i = 0; i < emptyCells.Count; i++)
+            for (int firstValueIndex = 0; firstValueIndex < emptyCells.Count; firstValueIndex++)
             {
-                for (int j = i + 1; j < emptyCells.Count; j++)
+                for (int secondValueIndex = firstValueIndex + 1; secondValueIndex < emptyCells.Count; secondValueIndex++)
                 {
-                    var cell1 = emptyCells[i];
-                    var cell2 = emptyCells[j];
+                    var cell1 = emptyCells[firstValueIndex];
+                    var cell2 = emptyCells[secondValueIndex];
 
                     var possibilities1 = cell1.GetPossibilities();
                     var possibilities2 = cell2.GetPossibilities();
@@ -95,12 +95,12 @@ namespace OmegaSudoku.Logic.Heuristics
             List<BoardCell> emptyCells = board.GetEmptyCellsInColumn(col);
 
             // looking for two empty cells with the same possibilities pair
-            for (int i = 0; i < emptyCells.Count; i++)
+            for (int firstValueIndex = 0; firstValueIndex < emptyCells.Count; firstValueIndex++)
             {
-                for (int j = i + 1; j < emptyCells.Count; j++)
+                for (int secondValueIndex = firstValueIndex + 1; secondValueIndex < emptyCells.Count; secondValueIndex++)
                 {
-                    var cell1 = emptyCells[i];
-                    var cell2 = emptyCells[j];
+                    var cell1 = emptyCells[firstValueIndex];
+                    var cell2 = emptyCells[secondValueIndex];
 
                     var possibilities1 = cell1.GetPossibilities();
                     var possibilities2 = cell2.GetPossibilities();
@@ -137,12 +137,12 @@ namespace OmegaSudoku.Logic.Heuristics
             List<BoardCell> emptyCells = board.GetEmptyCellsInBlock(blockStartRow, blockStartCol);
 
             // looking for two empty cells with the same possibilities pair
-            for (int i = 0; i < emptyCells.Count; i++)
+            for (int firstValueIndex = 0; firstValueIndex < emptyCells.Count; firstValueIndex++)
             {
-                for (int j = i + 1; j < emptyCells.Count; j++)
+                for (int secondValueIndex = firstValueIndex + 1; secondValueIndex < emptyCells.Count; secondValueIndex++)
                 {
-                    var cell1 = emptyCells[i];
-                    var cell2 = emptyCells[j];
+                    var cell1 = emptyCells[firstValueIndex];
+                    var cell2 = emptyCells[secondValueIndex];
 
                     var possibilities1 = cell1.GetPossibilities();
                     var possibilities2 = cell2.GetPossibilities();

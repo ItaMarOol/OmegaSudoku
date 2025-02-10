@@ -11,6 +11,11 @@ namespace OmegaSudoku.Logic
 {
     public static class SudokuHeuristics
     {
+        /// <summary>
+        /// Applies sudoku heuristics to a given board.
+        /// </summary>
+        /// <param name="board"> The Sudoku board to be applied. </param>
+        /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
         public static bool ApplySudokuHeuristics(SudokuBoard board)
         {
             bool changeFlag = false;

@@ -71,7 +71,11 @@ namespace OmegaSudoku.Logic
             }
             catch (Exception e)
             {
+                _stopwatch.Stop();
                 _outputHandler.PrintError(e.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                _outputHandler.PrintMessage($"Program ran for: {_stopwatch.ElapsedMilliseconds} ms");
+                Console.ResetColor();
             }
         }
 
@@ -96,7 +100,11 @@ namespace OmegaSudoku.Logic
             }
             catch (Exception e)
             {
+                _stopwatch.Stop (); 
                 _outputHandler.PrintError(e.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                _outputHandler.PrintMessage($"Program ran for: {_stopwatch.ElapsedMilliseconds} ms");
+                Console.ResetColor();
             }
         }
 
@@ -112,7 +120,7 @@ namespace OmegaSudoku.Logic
             _stopwatch.Stop();
 
             _outputHandler.PrintMessage("\nSolved sudoku board:");
-            ((CliOutputHandler)_outputHandler).PrintBoard(board); 
+            ((CliOutputHandler)_outputHandler).PrintBoard(board);
             _outputHandler.PrintMessage($"Solving time: {_stopwatch.ElapsedMilliseconds} ms");
             if (isFromFile)
             {

@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 namespace OmegaSudoku.Logic.Heuristics
 {
     public interface IHeuristic
-    { 
+    {
+
+        /// <summary>
+        /// Applies a sudoku heuristic to a given board.
+        /// </summary>
+        /// <param name="board"> The Sudoku board to be applied. </param>
+        /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
         bool ApplyHeuristic(SudokuBoard board);
     }
 }
