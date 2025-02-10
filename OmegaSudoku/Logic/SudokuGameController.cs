@@ -3,7 +3,6 @@ using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
-using OmegaSudoku.Utilities;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -75,8 +74,8 @@ namespace OmegaSudoku.Logic
             try
             {
                 int boardSize = ((CliInputHandler)_inputHandler).GetBoardSize(); // getting board size from the user through console
-                Constants.BoardSize = boardSize;
-                Constants.MaxCellValue = boardSize; 
+                SudokuConstants.BoardSize = boardSize;
+                SudokuConstants.MaxCellValue = boardSize; 
                 string boardInput = ((CliInputHandler)_inputHandler).GetBoardInput(boardSize); // getting the board from the user through console
                 ValidateAndSolveBoard(boardSize, boardInput, false); // validates, solves the board and displaying the solved board on console
             }
@@ -106,8 +105,8 @@ namespace OmegaSudoku.Logic
                 {
                     throw new InvalidBoardSizeException(boardSize);
                 }
-                Constants.BoardSize = boardSize;
-                Constants.MaxCellValue = boardSize;
+                SudokuConstants.BoardSize = boardSize;
+                SudokuConstants.MaxCellValue = boardSize;
                 ValidateAndSolveBoard(boardSize, boardInput, true, filePath);  // validates, solves the board and displaying the solved board on console
             }
             catch (Exception ex)

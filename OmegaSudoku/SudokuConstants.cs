@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaSudoku.Utilities
+namespace OmegaSudoku
 {
-    public static class Constants
+    public static class SudokuConstants
     {
 
         public static int BoardSize = 9; // board size (for example - '9' means the board size is 9x9)

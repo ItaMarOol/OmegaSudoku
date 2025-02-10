@@ -1,6 +1,5 @@
 ﻿using OmegaSudoku.Exceptions;
 using OmegaSudoku.Services.Output;
-using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,8 +22,8 @@ namespace OmegaSudoku.Logic.Validators
             int index;
             for (index = 0; index < input.Length; index++)
             {
-                int value = input[index] - Constants.AsciiDigitDiff; // converting char to int (by ascii values)
-                if (value != 0 && value < Constants.MinCellValue || value > Constants.MaxCellValue)
+                int value = input[index] - SudokuConstants.AsciiDigitDiff; // converting char to int (by ascii values)
+                if (value != 0 && value < SudokuConstants.MinCellValue || value > SudokuConstants.MaxCellValue)
                 {
                     return false;
                 }
@@ -39,7 +38,7 @@ namespace OmegaSudoku.Logic.Validators
         /// <returns>True if the input length is valid. else - false.</returns>
         private static bool IsInputLengthValid(string input)
         {
-            if (input.Length != Constants.BoardSize * Constants.BoardSize)
+            if (input.Length != SudokuConstants.BoardSize * SudokuConstants.BoardSize)
                 return false;
             return true;
         }
@@ -51,7 +50,7 @@ namespace OmegaSudoku.Logic.Validators
         /// <returns>True if the board size is valid. else - false.</returns>
         public static bool IsBoardSizeValid(int boardSize)
         {
-            if (Math.Sqrt(boardSize) % 1 == 0 && boardSize >= Constants.MinBoardSize && boardSize <= Constants.MaxBoardSize)
+            if (Math.Sqrt(boardSize) % 1 == 0 && boardSize >= SudokuConstants.MinBoardSize && boardSize <= SudokuConstants.MaxBoardSize)
             {
                 return true;
             }
@@ -94,8 +93,8 @@ namespace OmegaSudoku.Logic.Validators
             List<char> invalid = new List<char>();
             for (index = 0; index < input.Length; index++)
             {
-                int value = input[index] - Constants.AsciiDigitDiff; // converting char to int (by ascii values)
-                if (value != 0 && value < Constants.MinCellValue || value > Constants.MaxCellValue)
+                int value = input[index] - SudokuConstants.AsciiDigitDiff; // converting char to int (by ascii values)
+                if (value != 0 && value < SudokuConstants.MinCellValue || value > SudokuConstants.MaxCellValue)
                 {
                     invalid.Add(input[index]);
                 }
@@ -117,7 +116,7 @@ namespace OmegaSudoku.Logic.Validators
             {
                 for (col = 0; col < boardSize; col++) 
                 {
-                    int checkedValue = input[row * boardSize + col] - Constants.AsciiDigitDiff;
+                    int checkedValue = input[row * boardSize + col] - SudokuConstants.AsciiDigitDiff;
                     if (checkedValue != 0)
                     {
                         if (!seenValues.Contains(checkedValue))

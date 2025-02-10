@@ -1,5 +1,4 @@
-﻿using OmegaSudoku.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +35,7 @@ namespace OmegaSudoku.Models
                 for (int col = 0; col < BoardSize; col++)
                 {
                     BoardCell boardCell;
-                    value = boardString[charIndex] - Constants.AsciiDigitDiff;
+                    value = boardString[charIndex] - SudokuConstants.AsciiDigitDiff;
                     boardCell = new BoardCell(row, col, BoardSize, value);
                     if (value == 0) // empty cell
                         _emptyCells.Add(boardCell); // adding each empty cell the the empty cells list
@@ -444,7 +443,7 @@ namespace OmegaSudoku.Models
             {
                 for (int col = 0; col < BoardSize; col++)
                 {
-                    char value = (char)(GetCellValue(row, col) + Constants.AsciiDigitDiff);
+                    char value = (char)(GetCellValue(row, col) + SudokuConstants.AsciiDigitDiff);
                     boardString.Append(value);
                 }
             }

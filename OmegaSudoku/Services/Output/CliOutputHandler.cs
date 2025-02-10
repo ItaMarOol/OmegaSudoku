@@ -1,6 +1,5 @@
 ﻿using OmegaSudoku.Logic;
 using OmegaSudoku.Models;
-using OmegaSudoku.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,7 +122,7 @@ namespace OmegaSudoku.Services.Output
         /// </summary>
         public void RequestBoardSize()
         {
-            Console.Write($"Please enter the sudoku board size (has to be a value between {Constants.MinBoardSize}-{Constants.MaxBoardSize} that it's square root is an integer): ");
+            Console.Write($"Please enter the sudoku board size (has to be a value between {SudokuConstants.MinBoardSize}-{SudokuConstants.MaxBoardSize} that it's square root is an integer): ");
         }
 
         /// <summary>
@@ -143,9 +142,9 @@ namespace OmegaSudoku.Services.Output
         {
             Console.WriteLine("\nSudoku chars dictionary:");
 
-            for (int digit = 0; digit <= Constants.MaxBoardSize; digit++)
+            for (int digit = 0; digit <= SudokuConstants.MaxBoardSize; digit++)
             {
-                char character = (char)(digit + Constants.AsciiDigitDiff);
+                char character = (char)(digit + SudokuConstants.AsciiDigitDiff);
                 Console.WriteLine($"'{character}' = {digit}");
             }
         }
