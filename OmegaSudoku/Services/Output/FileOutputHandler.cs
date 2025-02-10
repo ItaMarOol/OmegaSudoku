@@ -36,7 +36,7 @@ namespace OmegaSudoku.Services.Output
         {
             try
             {
-                string boardString = BoardFormatter.ConvertBoardToString(board);
+                string boardString = board.ConvertBoardToString();
                 File.AppendAllText(_filePath, "\nSolved board:\n");
                 File.AppendAllText(_filePath, boardString + Environment.NewLine);
             }

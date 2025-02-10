@@ -1,4 +1,5 @@
 ﻿using OmegaSudoku.Exceptions;
+using OmegaSudoku.Logic.Heuristics;
 using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Output;
@@ -43,7 +44,7 @@ namespace OmegaSudoku.Logic
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
                     try 
                     { 
-                        SudokuHeuristics.ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
+                        ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
                     }
                     catch // hidden pairs heuristics detected an invalid board
                     {
@@ -74,7 +75,7 @@ namespace OmegaSudoku.Logic
             bool flag;
 
             board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
-            SudokuHeuristics.ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
+            ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
 
             flag = SolveWithBackTrack(board); // trying to solve the sudoku with backtracking algorithm.
 
@@ -82,6 +83,26 @@ namespace OmegaSudoku.Logic
                 throw new UnsolvableBoardException();
 
             return flag;
+        }
+
+        /// <summary>
+        /// Applies sudoku heuristics to a given board.
+        /// </summary>
+        /// <param name="board"> The Sudoku board to be applied. </param>
+        /// <returns> returns true if there was a change on the board. eles - returns false.</returns>
+        public static bool ApplySudokuHeuristics(SudokuBoard board)
+        {
+            bool changeFlag = false;
+            NakedPairsHeuristic nakedPairsHeuristic = new NakedPairsHeuristic();
+            HiddenSinglesHeuristic hiddenSinglesHeuristic = new HiddenSinglesHeuristic();
+            HiddenPairsHeuristic hiddenPairsHeuristic = new HiddenPairsHeuristic();
+
+            changeFlag |= nakedPairsHeuristic.ApplyHeuristic(board);  // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
+            board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
+            changeFlag |= hiddenSinglesHeuristic.ApplyHeuristic(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
+            changeFlag |= hiddenPairsHeuristic.ApplyHeuristic(board); // updates all the board cells possibilties by sudoku 'hidden pairs' heuristic.
+
+            return changeFlag;
         }
 
 

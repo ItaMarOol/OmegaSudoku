@@ -433,6 +433,25 @@ namespace OmegaSudoku.Models
         }
 
         /// <summary>
+        /// Converts the sudoku board to a single long string representation.
+        /// </summary>
+        /// <returns>A single long string representing the board.</returns>
+        public string ConvertBoardToString()
+        {
+            StringBuilder boardString = new StringBuilder();
+
+            for (int row = 0; row < BoardSize; row++)
+            {
+                for (int col = 0; col < BoardSize; col++)
+                {
+                    char value = (char)(GetCellValue(row, col) + Constants.AsciiDigitDiff);
+                    boardString.Append(value);
+                }
+            }
+            return boardString.ToString();
+        }
+
+        /// <summary>
         /// Saves the board state into a dictionary with cell as the key and possibilities as the value.
         /// </summary>
         /// <returns>A dictionary with the current board state.</returns>

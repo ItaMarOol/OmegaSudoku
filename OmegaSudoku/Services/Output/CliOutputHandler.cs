@@ -22,7 +22,7 @@ namespace OmegaSudoku.Services.Output
         /// <param name="board">The Sudoku board to be printed.</param>
         public void PrintBoardAsString(SudokuBoard board)
         {
-            string boardString = BoardFormatter.ConvertBoardToString(board);
+            string boardString =board.ConvertBoardToString();
             Console.WriteLine(boardString);
         }
 
@@ -54,7 +54,7 @@ namespace OmegaSudoku.Services.Output
         /// <param name="board">The Sudoku board to be printed.</param>
         public void PrintBoard(SudokuBoard board)
         {
-            string boardString = BoardFormatter.ConvertBoardToString(board);
+            string boardString = board.ConvertBoardToString();
             PrintBoard(boardString);
         }
 
