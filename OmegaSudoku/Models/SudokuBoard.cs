@@ -303,6 +303,155 @@ namespace OmegaSudoku.Models
         }
 
         /// <summary>
+        /// returns a set with all the unused values in a given board row.
+        /// </summary>
+        /// <param name="row"> The board row to be searched. </param>
+        /// <returns>  returns a set with all the unused values in the board row.</returns>
+        public HashSet<int> GetRowUnusedValuesSet(int row)
+        {
+            HashSet<int> unusedValues = new HashSet<int>();
+            unusedValues.UnionWith(Enumerable.Range(1, BoardSize)); // initializing the set with all the possibilities
+
+            // removing the placed values in the row from the row possibilities set
+            for (int col = 0; col < BoardSize; col++)
+            {
+                var cell = GetCell(row, col);
+                if (!cell.IsEmpty())
+                {
+                    unusedValues.Remove(cell.GetValue());
+                }
+            }
+
+            return unusedValues;
+        }
+
+
+        /// <summary>
+        /// returns a set with all the unused values in a given board column.
+        /// </summary>
+        /// <param name="col"> The board column to be searched. </param>
+        /// <returns>  returns a set with all the unused values in the board column.</returns>
+        public HashSet<int> GetColumnUnusedValuesSet(int col)
+        {
+            HashSet<int> unusedValues = new HashSet<int>();
+            unusedValues.UnionWith(Enumerable.Range(1, BoardSize)); // initializing the set with all the possibilities
+
+            // removing the placed values in the row from the row possibilities set
+            for (int row = 0; row < BoardSize; row++)
+            {
+                var cell = GetCell(row, col);
+                if (!cell.IsEmpty())
+                {
+                    unusedValues.Remove(cell.GetValue());
+                }
+            }
+
+            return unusedValues;
+        }
+
+
+        /// <summary>
+        /// returns a set with all the unused values in a given board block.
+        /// </summary>
+        /// <param name="blockStartRow"> The board starting row of te block to be searched. </param>
+        /// <param name="blockStartCol"> The board starting column of te block to be searched. </param>
+        /// <returns>  returns a set with all the unused values in the board block.</returns>
+        public HashSet<int> GetBlockUnusedValuesSet(int blockStartRow, int blockStartCol)
+        {
+            HashSet<int> unusedValues = new HashSet<int>();
+            int boxLength = (int)Math.Sqrt(BoardSize);
+            unusedValues.UnionWith(Enumerable.Range(1, BoardSize)); // initializing the set with all the possibilities
+
+            // removing the placed values in the row from the row possibilities set
+            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+            {
+                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                {
+                    var cell = GetCell(row, col);
+                    if (!cell.IsEmpty())
+                    {
+                        unusedValues.Remove(cell.GetValue());
+                    }
+                }
+            }
+
+            return unusedValues;
+        }
+
+        /// <summary>
+        /// returns a set with all the used values in a given board row.
+        /// </summary>
+        /// <param name="row"> The board row to be searched. </param>
+        /// <returns>  returns a set with all the used values in the board row.</returns>
+        public HashSet<int> GetRowUsedValuesSet(int row)
+        {
+            HashSet<int> usedValues = new HashSet<int>();
+
+            // removing the placed values in the row from the row possibilities set
+            for (int col = 0; col < BoardSize; col++)
+            {
+                var cell = GetCell(row, col);
+                if (!cell.IsEmpty())
+                {
+                    usedValues.Add(cell.GetValue());
+                }
+            }
+
+            return usedValues;
+        }
+
+
+        /// <summary>
+        /// returns a set with all the used values in a given board column.
+        /// </summary>
+        /// <param name="col"> The board column to be searched. </param>
+        /// <returns>  returns a set with all the used values in the board column.</returns>
+        public HashSet<int> GetColumnUsedValuesSet(int col)
+        {
+            HashSet<int> usedValues = new HashSet<int>();
+
+            // removing the placed values in the row from the row possibilities set
+            for (int row = 0; row < BoardSize; row++)
+            {
+                var cell = GetCell(row, col);
+                if (!cell.IsEmpty())
+                {
+                    usedValues.Add(cell.GetValue());
+                }
+            }
+
+            return usedValues;
+        }
+
+
+        /// <summary>
+        /// returns a set with all the used values in a given board block.
+        /// </summary>
+        /// <param name="blockStartRow"> The board starting row of te block to be searched. </param>
+        /// <param name="blockStartCol"> The board starting column of te block to be searched. </param>
+        /// <returns>  returns a set with all the used values in the board block.</returns>
+        public HashSet<int> GetBlockUsedValuesSet(int blockStartRow, int blockStartCol)
+        {
+            HashSet<int> usedValues = new HashSet<int>();
+            int boxLength = (int)Math.Sqrt(BoardSize);
+
+            // removing the placed values in the row from the row possibilities set
+            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
+            {
+                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
+                {
+                    var cell = GetCell(row, col);
+                    if (!cell.IsEmpty())
+                    {
+                        usedValues.Add(cell.GetValue());
+                    }
+                }
+            }
+
+            return usedValues;
+        }
+
+        /// <summary>
         /// saving the board state into a dictionary with cell as the key and possibilities as the value.
         /// </summary>
         /// <returns>A dictionary with the current board state.</returns>
@@ -334,8 +483,7 @@ namespace OmegaSudoku.Models
                     _emptyCells.Add(cell);
             }
         }
-
-
     }
 
 }
+

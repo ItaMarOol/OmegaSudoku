@@ -57,17 +57,9 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            HashSet<int> usedValues = new HashSet<int>();
 
-            // Check all cells in the row
-            for (int col = 0; col < boardSize; col++)
-            {
-                var cell = board.GetCell(row, col);
-                if (!cell.IsEmpty())
-                {
-                    usedValues.Add(cell.GetValue());
-                }
-            }
+            // set with all the used values in the row
+            HashSet<int> usedValues = board.GetRowUsedValuesSet(row);
 
             // Check for hidden singles
             for (int value = 1; value <= boardSize; value++)
@@ -115,17 +107,9 @@ namespace OmegaSudoku.Logic.Heuristics
         {
             bool changeFlag = false;
             int boardSize = board.BoardSize;
-            HashSet<int> usedValues = new HashSet<int>();
 
-            // Check all cells in the column
-            for (int row = 0; row < boardSize; row++)
-            {
-                var cell = board.GetCell(row, col);
-                if (!cell.IsEmpty())
-                {
-                    usedValues.Add(cell.GetValue());
-                }
-            }
+            // set with all the used values in the column
+            HashSet<int> usedValues = board.GetColumnUsedValuesSet(col);
 
             // Check for hidden singles
             for (int value = 1; value <= boardSize; value++)
@@ -175,20 +159,9 @@ namespace OmegaSudoku.Logic.Heuristics
             bool changeFlag = false;
             int boardSize = board.BoardSize;
             int boxLength = (int)Math.Sqrt(boardSize);
-            HashSet<int> usedValues = new HashSet<int>();
 
-            // Check all cells in the block
-            for (int row = blockStartRow; row < blockStartRow + boxLength; row++)
-            {
-                for (int col = blockStartCol; col < blockStartCol + boxLength; col++)
-                {
-                    var cell = board.GetCell(row, col);
-                    if (!cell.IsEmpty())
-                    {
-                        usedValues.Add(cell.GetValue());
-                    }
-                }
-            }
+            // set with all the used values in the block
+            HashSet<int> usedValues = board.GetBlockUsedValuesSet(blockStartRow, blockStartCol);
 
             // Check for hidden singles
             for (int value = 1; value <= boardSize; value++)
