@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OmegaSudokuTests.SolvingTests.Sudoku16x16
 {
     [TestClass]
-    public class RegularBoardsTests
+    public class Regular16BoardsTests
     {
 
         // Easy 16x16 boards tests

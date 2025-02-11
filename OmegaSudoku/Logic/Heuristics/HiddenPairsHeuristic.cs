@@ -73,14 +73,13 @@ namespace OmegaSudoku.Logic.Heuristics
             for (firstValueIndex = 0; firstValueIndex < boardSize; firstValueIndex++)
             {
                 foundFlag = false;
-                if (cellsListsArray[firstValueIndex].Count > 0) // only unplaced values
+                if (cellsListsArray[firstValueIndex].Count == 2) // the checked value appears in exactly 2 cells
                 {
                     firstValue = firstValueIndex + 1;
                     secondValue = -1;
                     for (secondValueIndex = firstValueIndex + 1; secondValueIndex < boardSize; secondValueIndex++)
                     {
-                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])
-                            && cellsListsArray[firstValueIndex].Count == 2) // 2 values with the same 2 cells
+                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])) // 2 values with the same 2 cells
                         {
                             if (foundFlag == false) // didnt fount yet
                             {
@@ -132,14 +131,13 @@ namespace OmegaSudoku.Logic.Heuristics
             for (firstValueIndex = 0; firstValueIndex < boardSize; firstValueIndex++)
             {
                 foundFlag = false; // flag reset
-                if (cellsListsArray[firstValueIndex].Count > 0) // only unplaced values
+                if (cellsListsArray[firstValueIndex].Count  == 2) // the checked value appears in exactly 2 cells
                 {
                     firstValue = firstValueIndex + 1;
                     secondValue = -1;
                     for (secondValueIndex = firstValueIndex + 1; secondValueIndex < boardSize; secondValueIndex++)
                     {
-                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])
-                            && cellsListsArray[firstValueIndex].Count == 2) // 2 cells have the same 2 possibilities
+                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])) // 2 cells have the same 2 possibilities
                         {
                             if (foundFlag == false) // hadn't found yet
                             {
@@ -193,14 +191,13 @@ namespace OmegaSudoku.Logic.Heuristics
             for (firstValueIndex = 0; firstValueIndex < boardSize; firstValueIndex++)
             {
                 foundFlag = false;
-                if (cellsListsArray[firstValueIndex].Count > 0) // only unplaced values
+                if (cellsListsArray[firstValueIndex].Count == 2) // the checked value appears in exactly 2 cells
                 {
                     firstValue = firstValueIndex + 1;
                     secondValue = -1;
                     for (secondValueIndex = firstValueIndex + 1; secondValueIndex < boardSize; secondValueIndex++)
                     {
-                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])
-                            && cellsListsArray[firstValueIndex].Count == 2) // 2 cells have the same 2 possibilities
+                        if (cellsListsArray[firstValueIndex].SequenceEqual(cellsListsArray[secondValueIndex])) // 2 cells have the same 2 possibilities
                         {
                             if (foundFlag == false) // hadn't found yet
                             {

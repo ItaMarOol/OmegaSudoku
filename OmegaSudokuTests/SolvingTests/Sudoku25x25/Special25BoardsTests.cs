@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku25x25
 {
-    public class SpecialBoardsTests
+    [TestClass]
+    public class Special25BoardsTests
     {
         // Empty 25x25 board
 

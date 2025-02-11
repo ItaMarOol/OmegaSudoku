@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
-    class InvalidCellValuesException : Exception
+    public class InvalidCellValuesException : Exception
     {
         /// <summary>
         /// Constructor to initialize an InvalidCellValuesException object with a list of invalid cell values.

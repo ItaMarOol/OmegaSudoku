@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
 {
     [TestClass]
-    public class RegularBoardsTests
+    public class Regular9BoardsTests
     {
 
         // Easy 9x9 boards tests

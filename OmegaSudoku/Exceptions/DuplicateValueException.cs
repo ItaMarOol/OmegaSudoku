@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
-    class DuplicateValueException : Exception
+    public class DuplicateValueException : Exception
     {
 
         /// <summary>

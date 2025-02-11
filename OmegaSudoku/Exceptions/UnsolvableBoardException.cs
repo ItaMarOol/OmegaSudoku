@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
-    class UnsolvableBoardException : Exception
+    public class UnsolvableBoardException : Exception
     {
 
         /// <summary>

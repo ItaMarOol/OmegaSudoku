@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
-    class InvalidBoardSizeException : Exception
+    public class InvalidBoardSizeException : Exception
     {
         /// <summary>
         /// Constructor to initialize an InvalidBoardSizeException object with a given invalid board size.
