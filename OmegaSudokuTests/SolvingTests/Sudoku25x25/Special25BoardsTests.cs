@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku25x25
 {
+
+    /// <summary>
+    /// Tests for solving special 25x25 sudoku boards (like empty boards and unsolvable boards).
+    /// </summary>
     [TestClass]
     public class Special25BoardsTests
     {

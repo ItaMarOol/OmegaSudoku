@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Output
 {
+
+    /// <summary>
+    /// This class represents a file output handler. It handles writing output to a file. 
+    /// It also allows printing the Sudoku board, messages, and errors to a specified file.
+    /// </summary>
+
     public class FileOutputHandler : IOutputHandler
     {
         private readonly string _filePath; // file path string

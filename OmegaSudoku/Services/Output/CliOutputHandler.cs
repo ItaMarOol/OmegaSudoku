@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Output
 {
+
+    /// <summary>
+    /// This class represents a CLI (command-line interface) output handler. It handles the display of output in the CLI for the Sudoku game.
+    /// It also provides methods to print the Sudoku board, messages, errors, and display menus.
+    /// </summary>
+
     public class CliOutputHandler : IOutputHandler
     {
         /// <summary>

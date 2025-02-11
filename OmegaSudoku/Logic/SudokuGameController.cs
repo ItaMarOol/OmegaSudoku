@@ -9,6 +9,12 @@ using System.Drawing;
 
 namespace OmegaSudoku.Logic
 {
+
+    /// <summary>
+    /// This class represents the controller for managing the flow of the sudoku solver.
+    /// It handles user input and output from console and file, input validations, sudoku board solving, 
+    /// and solution displaying. It also manages program running time for solving the board.
+    /// </summary>
     public class SudokuController
     {
         private readonly IInputHandler _inputHandler;

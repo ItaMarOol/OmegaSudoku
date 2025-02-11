@@ -10,6 +10,10 @@ using OmegaSudoku.Models;
 
 namespace OmegaSudokuTests.ValidatorsTests
 {
+
+    /// <summary>
+    /// Tests for validating sudoku boards using the BoardValidator.
+    /// </summary>
     [TestClass]
     public class BoardValidatorTests
     {

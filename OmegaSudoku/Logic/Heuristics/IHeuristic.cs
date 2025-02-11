@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Heuristics
 {
+    /// <summary>
+    /// This interface represents a sudoku heuristic that can be applied to a sudoku board.
+    /// </summary>
     public interface IHeuristic
     {
 

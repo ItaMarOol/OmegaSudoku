@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Validators
 {
+
+    /// <summary>
+    /// This class represents a static utility for validating a sudoku board.
+    /// It includes methods to ensure that the rows, columns, and blocks of the board do not contain duplicate values.
+    /// </summary>
     public static class BoardValidator
     {
 

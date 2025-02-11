@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
+    /// <summary>
+    /// This class represents an exception that is thrown when the Sudoku board is unsolvable.
+    /// </summary>
     public class UnsolvableBoardException : Exception
     {
 

@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Heuristics
 {
+
+    /// <summary>
+    /// This class represents a heuristic that applies the "Hidden Singles" technique in sudoku. 
+    /// A hidden single is when a number can only appear in one possible position in a row/column/block.
+    /// The heuristic finds such singles, places the value in that cell and also eliminats the other cell possibilities 
+    /// in that row/column/block to reduce the possibilities, which helps to solve the board faster.
+    /// </summary>
     public class HiddenSinglesHeuristic : IHeuristic
     {
 
         /// <summary>
         /// Applies the hidden singles sudoku heuristic to the whole board.
-        /// A hidden single is when a number can only appear in one possible position in a row, column and block.
-        /// The function places the number in that position and reduces possibilities for other cells.
         /// </summary>
         /// <param name="board"> The Sudoku board to be applied. </param>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>

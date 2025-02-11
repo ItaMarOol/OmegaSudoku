@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
+    /// <summary>
+    /// This class represents an exception that is thrown when a duplicated value is detected 
+    /// in the same row, column, or block of a Sudoku board (which is invalid by the sudoku rules).
+    /// </summary>
     public class DuplicateValueException : Exception
     {
 

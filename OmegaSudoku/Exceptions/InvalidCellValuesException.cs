@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
+    /// <summary>
+    /// This class represents an exception that is thrown when invalid cell values are detected in the Sudoku board.
+    /// </summary>
     public class InvalidCellValuesException : Exception
     {
         /// <summary>

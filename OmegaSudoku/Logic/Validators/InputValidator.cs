@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Validators
 {
+
+    /// <summary>
+    /// This class represents a utility for validating sudoku input strings.
+    /// It includes methods to check for valid values, board size, length, and duplicate values in the input string.
+    /// </summary>
     public static class InputValidator
     {
 

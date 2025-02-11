@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Heuristics
 {
+
+    /// <summary>
+    /// This class represents a heuristic that applies the "Hidden Pairs" technique in sudoku. 
+    /// A hidden pair are two empty cells in the same row, column, or block that both have the same two 
+    /// possible values that cannot appear anywhere else in that row/column/block. 
+    /// The heuristic finds such pairs and removing all other possible values from these cells 
+    /// to reduce the possibilities, which helps to solve the board faster.
+    /// </summary>
     public class HiddenPairsHeuristic : IHeuristic
     {
 
         /// <summary>
         /// Applies the hidden pairs sudoku heuristic to the whole board.
-        /// A hidden pair are two empty cells in the same row/column/block that both includes the same two value possibilities that could not appear nowhere else.
-        /// The function removes all the other values from these 2 cells to reduce possibilities.
         /// </summary>
         /// <param name="board"> The Sudoku board to be applied. </param>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>

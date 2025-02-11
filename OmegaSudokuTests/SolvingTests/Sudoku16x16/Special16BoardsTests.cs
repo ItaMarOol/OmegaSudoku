@@ -10,6 +10,10 @@ using OmegaSudoku.Exceptions;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku16x16
 {
+
+    /// <summary>
+    /// Tests for solving special 16x16 sudoku boards (like empty boards and unsolvable boards).
+    /// </summary>
     [TestClass]
     public class Special16BoardsTests
     {

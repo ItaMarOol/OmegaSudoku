@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
 {
+
+    /// <summary>
+    /// Tests for solving easy, medium, and hard 25x25 sudoku boards.
+    /// </summary>
     [TestClass]
     public class Regular9BoardsTests
     {

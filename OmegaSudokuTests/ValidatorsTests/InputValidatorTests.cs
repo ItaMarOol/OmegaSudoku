@@ -11,6 +11,10 @@ using OmegaSudoku;
 
 namespace OmegaSudokuTests.ValidatorsTests
 {
+
+    /// <summary>
+    /// Tests for validating user input for sudoku boards using InputValidator.
+    /// </summary>
     [TestClass]
     public class InputValidatorTests
     {

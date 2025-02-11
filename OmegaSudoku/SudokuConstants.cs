@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku
 {
+    /// <summary>
+    /// This class represents the sudoku constants values. 
+    /// It contains constant values for sudoku game settings such as board size, cell value limits, etc.
+    /// </summary>
     public static class SudokuConstants
     {
 

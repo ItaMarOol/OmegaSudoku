@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Models
 {
+
+    /// <summary>
+    /// This class represents a sudoku board and provides methods for interacting with its cells.
+    /// The board containts cells that can hold a values between 1 and the board size or 0 for empty cells. 
+    /// It supports operations like validating placements, updating possibilities, etc.
+    /// </summary>
     public class SudokuBoard
     {
-        public int BoardSize { get; private set; }
-        public int BlockSize { get; private set; }
+        public int BoardSize { get; private set; } // board size (for example 9 => 9x9)
+        public int BlockSize { get; private set; } // block size (length) in the board
+
+         // A dictionary that holds that board state.
+         // Each key represents a coordinate and each value represents the cell value in that coordinate.
         private Dictionary<(int, int), BoardCell> _board { get; set; }
+
+        // A list that holds all the empty cells on the board.
         private List<BoardCell> _emptyCells;
 
 

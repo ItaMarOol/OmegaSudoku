@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Input
 {
+    /// <summary>
+    /// This class represents a file input handler.
+    /// It handles reading user input from a file. It also validates the file path and reads the board data from the specified file.
+    /// </summary>
+
     internal class FileInputHandler : IInputHandler
     {
         private readonly string _filePath;

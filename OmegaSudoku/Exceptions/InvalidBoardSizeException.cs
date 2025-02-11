@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Exceptions
 {
+    /// <summary>
+    /// This class represents an exception that is thrown when an invalid board size is detected.
+    /// </summary>
     public class InvalidBoardSizeException : Exception
     {
         /// <summary>

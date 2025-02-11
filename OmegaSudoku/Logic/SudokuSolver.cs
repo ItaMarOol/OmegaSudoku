@@ -11,6 +11,13 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic
 {
+
+    /// <summary>
+    /// This class represents the solver for the sudoku game. It contains methods to solve the Sudoku board using a backtracking algorithm,
+    /// applying sudoku heuristics to reduce possibilities which optimize the solving process, and managing the state of the board.
+    /// The solver works by recursively filling cells based on possible values, while also applying some heuristics (such as Naked Pairs,
+    /// Hidden Singles, and Hidden Pairs) to reduce possibilities which leads to a faster solving process.
+    /// </summary>
     public static class SudokuSolver
     {
 

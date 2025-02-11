@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Heuristics
 {
+
+    /// <summary>
+    /// This class represents a heuristic that applies the "Naked Pairs" technique in sudoku. 
+    /// A naked pair is when two empty cells in the same row/column/block have the same two possible values. 
+    /// The heuristic removes those values from all other empty cells in the same row/column/block 
+    /// to reduce the possibilities, which helps to solve the board faster.
+    /// </summary>
     public class NakedPairsHeuristic : IHeuristic
     {
 
         /// <summary>
         /// Applies the naked pairs sudoku heuristic to the whole board.
-        /// A naked pair are two empty cells in the same row/column/block that both has the same two value possibilities.
-        /// The function removes these values from the other cells in the pair's row, column, block to reduce possibilities.
         /// <param name="board"> The Sudoku board to be applied. </param>
         /// </summary>
         /// <returns> returns true if there was a change on the board. eles - returns false.</returns>

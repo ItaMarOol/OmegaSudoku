@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Models
 {
+
+    /// <summary>
+    /// This class represents a single cell on the sudoku board. Each cell contains its row, column, and possible values.
+    /// A cell could be empty (with multiple possible values) or filled (with a single and final value).
+    /// </summary>
     public class BoardCell
     {
         public int Row { get; private set; }

@@ -10,6 +10,10 @@ using OmegaSudoku.Exceptions;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
 {
+
+    /// <summary>
+    /// Tests for solving special 9x9 sudoku boards (like empty boards and unsolvable boards).
+    /// </summary>
     [TestClass]
     public class Special9BoardsTests
     {

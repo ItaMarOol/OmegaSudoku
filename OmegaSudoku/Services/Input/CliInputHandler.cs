@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Input
 {
+
+    /// <summary>
+    /// This class represents a CLI (command-line interface) input handler. 
+    /// It handles user input for the sudoku game through the CLI.
+    /// It provides methods to request and read input for the sudoku game.
+    /// </summary>
     public class CliInputHandler : IInputHandler
     {
         private readonly CliOutputHandler _outputHandler;
