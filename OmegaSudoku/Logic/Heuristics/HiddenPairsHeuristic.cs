@@ -1,10 +1,5 @@
 ﻿using OmegaSudoku.Exceptions;
 using OmegaSudoku.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Heuristics
 {
@@ -137,7 +132,7 @@ namespace OmegaSudoku.Logic.Heuristics
             for (firstValueIndex = 0; firstValueIndex < boardSize; firstValueIndex++)
             {
                 foundFlag = false; // flag reset
-                if (cellsListsArray[firstValueIndex].Count  == 2) // the checked value appears in exactly 2 cells
+                if (cellsListsArray[firstValueIndex].Count == 2) // the checked value appears in exactly 2 cells
                 {
                     firstValue = firstValueIndex + 1;
                     secondValue = -1;

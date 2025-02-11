@@ -1,11 +1,4 @@
-﻿using OmegaSudoku.Services.Output;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaSudoku.Services.Input
+﻿namespace OmegaSudoku.Services.Input
 {
     /// <summary>
     /// This class represents a file input handler.
@@ -46,6 +39,6 @@ namespace OmegaSudoku.Services.Input
             return userInput;
         }
         public string GetFilePath()
-            { return _filePath; }
+        { return _filePath; }
     }
 }

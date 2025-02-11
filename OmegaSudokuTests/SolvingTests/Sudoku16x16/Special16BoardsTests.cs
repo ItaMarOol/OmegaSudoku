@@ -1,12 +1,7 @@
-﻿using OmegaSudoku.Logic.Validators;
+﻿using OmegaSudoku.Exceptions;
 using OmegaSudoku.Logic;
+using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaSudoku.Exceptions;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku16x16
 {

@@ -1,10 +1,4 @@
-﻿using OmegaSudoku.Logic;
-using OmegaSudoku.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OmegaSudoku.Models;
 
 namespace OmegaSudoku.Services.Output
 {
@@ -27,7 +21,7 @@ namespace OmegaSudoku.Services.Output
         /// <param name="board">The Sudoku board to be printed.</param>
         public void PrintBoardAsString(SudokuBoard board)
         {
-            string boardString =board.ConvertBoardToString();
+            string boardString = board.ConvertBoardToString();
             Console.WriteLine(boardString);
         }
 
@@ -72,7 +66,7 @@ namespace OmegaSudoku.Services.Output
             board = board.Replace('0', '.');
             int boardSize = (int)Math.Sqrt(board.Length);
             int blockLength = (int)Math.Sqrt(boardSize);
-            int lineLength = boardSize * 2 + ((blockLength - 1) * 2) +3;
+            int lineLength = boardSize * 2 + ((blockLength - 1) * 2) + 3;
 
             Console.WriteLine();
             Console.WriteLine("-".PadLeft(lineLength, '-'));
@@ -84,16 +78,16 @@ namespace OmegaSudoku.Services.Output
                 {
                     if (j % blockLength == 0 && j != 0) // right side of a block
                     {
-                        Console.Write("| "); 
+                        Console.Write("| ");
                     }
                     Console.Write($"{row[j]} ");
                 }
                 Console.Write("| ");
 
                 Console.WriteLine();
-                if ((rowIndex + 1) % blockLength == 0 && rowIndex != boardSize-1) // bottom side of a row of blocks
+                if ((rowIndex + 1) % blockLength == 0 && rowIndex != boardSize - 1) // bottom side of a row of blocks
                 {
-                    Console.WriteLine("-".PadLeft(lineLength, '-')); 
+                    Console.WriteLine("-".PadLeft(lineLength, '-'));
                 }
             }
             Console.WriteLine("-".PadLeft(lineLength, '-'));

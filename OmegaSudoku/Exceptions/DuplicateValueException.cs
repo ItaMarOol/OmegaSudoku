@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaSudoku.Exceptions
+﻿namespace OmegaSudoku.Exceptions
 {
     /// <summary>
     /// This class represents an exception that is thrown when a duplicated value is detected 

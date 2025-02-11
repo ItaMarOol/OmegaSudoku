@@ -3,9 +3,7 @@ using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
-using System;
 using System.Diagnostics;
-using System.Drawing;
 
 namespace OmegaSudoku.Logic
 {
@@ -81,7 +79,7 @@ namespace OmegaSudoku.Logic
             {
                 int boardSize = ((CliInputHandler)_inputHandler).GetBoardSize(); // getting board size from the user through console
                 SudokuConstants.BoardSize = boardSize;
-                SudokuConstants.MaxCellValue = boardSize; 
+                SudokuConstants.MaxCellValue = boardSize;
                 string boardInput = ((CliInputHandler)_inputHandler).GetBoardInput(boardSize); // getting the board from the user through console
                 ValidateAndSolveBoard(boardSize, boardInput, false); // validates, solves the board and displaying the solved board on console
             }

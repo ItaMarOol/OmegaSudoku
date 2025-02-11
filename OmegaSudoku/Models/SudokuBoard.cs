@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace OmegaSudoku.Models
 {
@@ -17,8 +13,8 @@ namespace OmegaSudoku.Models
         public int BoardSize { get; private set; } // board size (for example 9 => 9x9)
         public int BlockSize { get; private set; } // block size (length) in the board
 
-         // A dictionary that holds that board state.
-         // Each key represents a coordinate and each value represents the cell value in that coordinate.
+        // A dictionary that holds that board state.
+        // Each key represents a coordinate and each value represents the cell value in that coordinate.
         private Dictionary<(int, int), BoardCell> _board { get; set; }
 
         // A list that holds all the empty cells on the board.
@@ -56,9 +52,9 @@ namespace OmegaSudoku.Models
             }
         }
 
-        public BoardCell GetCell(int row, int col) 
+        public BoardCell GetCell(int row, int col)
         {
-            return _board[(row,col)];
+            return _board[(row, col)];
         }
 
         public List<BoardCell> GetEmptyCellsInRow(int row)
@@ -118,11 +114,11 @@ namespace OmegaSudoku.Models
         {
             for (int col = 0; col < BoardSize; col++)
             {
-                var cell = _board[(row,col)];
+                var cell = _board[(row, col)];
                 if (cell.GetValue() == value)
                     return true;
             }
-            return false; 
+            return false;
         }
 
         public bool IsValueInCol(int col, int value)
@@ -164,7 +160,7 @@ namespace OmegaSudoku.Models
         /// <returns>True if the value can be placed without violating Sudoku rules, else - false.</returns>
         public bool CanValueBePlaced(int row, int col, int value)
         {
-            return !IsValueInRow(row,value) && !IsValueInCol(col,value) && !IsValueInBlock(row,col,value);
+            return !IsValueInRow(row, value) && !IsValueInCol(col, value) && !IsValueInBlock(row, col, value);
         }
 
         /// <summary>
@@ -261,7 +257,7 @@ namespace OmegaSudoku.Models
         /// updates all of a sudoku board cells possibilities.
         /// </summary>
         public void UpdateAllCellsPossibilities()
-        { 
+        {
             for (int row = 0; row < BoardSize; row++)
             {
                 for (int col = 0; col < BoardSize; col++)

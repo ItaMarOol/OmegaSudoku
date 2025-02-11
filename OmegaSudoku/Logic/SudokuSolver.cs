@@ -2,12 +2,6 @@
 using OmegaSudoku.Logic.Heuristics;
 using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
-using OmegaSudoku.Services.Output;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic
 {
@@ -49,8 +43,8 @@ namespace OmegaSudoku.Logic
                 {
                     Dictionary<BoardCell, HashSet<int>> savedState = board.SaveBoardState(); // saving the board state
                     board.SetCellValue(lowestRow, lowestCol, possibleValue);
-                    try 
-                    { 
+                    try
+                    {
                         ApplySudokuHeuristics(board); // applying sudoku heuristics to the board to reduce possibilities
                     }
                     catch // hidden pairs heuristics detected an invalid board

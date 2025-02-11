@@ -1,11 +1,6 @@
-﻿using OmegaSudoku.Logic.Validators;
-using OmegaSudoku.Logic;
+﻿using OmegaSudoku.Logic;
+using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku25x25
 {
@@ -39,7 +34,7 @@ namespace OmegaSudokuTests.SolvingTests.Sudoku25x25
         public void MediumSudokuTest1()
         {
             // Arrange
-            
+
             string initialBoardString = "00085:002900H400000;>=0?0020:30<00G;1F00=600005B0004000;0FC00=0?050008:3@2900D;1>00?080B0730290000006?A0=80B0700029<H0G0010C0078503H000004G00000100?0>20:0H<F40I10C00B00>=0007000I<F1000;0000>@07053H29:0D;060B?A05@070H00:30F40I00000000000H09:F0GI<10000D;00000A00@27050000H00GI<A00BE00785040:3C0I00600;000002040:00C000?0006000>=900H0F000<6?0;1E0>=0@2000G0<F060D01BE0>=27850009:0:3000CD00F?0;007>0B029850I0FC000010070=09800240:30;1000000000900@0:0H4CDI<000BE70085040:000000C0A;108502940:0HC00<FA;06000>005020:GI3H0D0<F00160A08=B03H00I00<00A0060800E00:000<000;A000078=0E00009G000006?A000=009:5@203H4G000000BE709:0@20I004000CDA>100";
             SudokuBoard board = new SudokuBoard(25, initialBoardString);
 

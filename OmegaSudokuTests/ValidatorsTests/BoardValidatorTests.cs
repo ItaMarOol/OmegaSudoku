@@ -1,11 +1,4 @@
-﻿using OmegaSudoku.Exceptions;
-using OmegaSudoku.Logic.Validators;
-using OmegaSudoku;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
 
 namespace OmegaSudokuTests.ValidatorsTests

@@ -1,11 +1,6 @@
-﻿using OmegaSudoku.Logic.Validators;
-using OmegaSudoku.Logic;
+﻿using OmegaSudoku.Logic;
+using OmegaSudoku.Logic.Validators;
 using OmegaSudoku.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
 {
@@ -18,7 +13,7 @@ namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
     {
 
         // Easy 9x9 boards tests
-        
+
         [TestMethod]
         public void EasySudokuTest1()
         {
@@ -77,7 +72,7 @@ namespace OmegaSudokuTests.SolvingTests.Sudoku9x9
             // Assert
             Assert.IsTrue(isSolvedAndValid);
         }
-        
+
 
 
         // Medium 9x9 boards tests

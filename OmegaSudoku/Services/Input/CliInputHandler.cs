@@ -1,11 +1,5 @@
 ﻿using OmegaSudoku.Logic.Validators;
-using OmegaSudoku.Models;
 using OmegaSudoku.Services.Output;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudoku.Services.Input
 {

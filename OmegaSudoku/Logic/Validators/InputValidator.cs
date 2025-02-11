@@ -1,11 +1,4 @@
 ﻿using OmegaSudoku.Exceptions;
-using OmegaSudoku.Services.Output;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaSudoku.Logic.Validators
 {
@@ -119,7 +112,7 @@ namespace OmegaSudoku.Logic.Validators
             List<int> seenValues = new List<int>();
             for (row = 0; row < boardSize; row++)
             {
-                for (col = 0; col < boardSize; col++) 
+                for (col = 0; col < boardSize; col++)
                 {
                     int checkedValue = input[row * boardSize + col] - SudokuConstants.AsciiDigitDiff;
                     if (checkedValue != 0)

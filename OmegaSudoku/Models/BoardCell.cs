@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaSudoku.Models
+﻿namespace OmegaSudoku.Models
 {
 
     /// <summary>
@@ -62,7 +56,7 @@ namespace OmegaSudoku.Models
         {
             if (newValue == 0 && !IsEmpty()) // removing a filled cell
                 InitializePossibilities(boardSize);
-            else if (newValue != 0) 
+            else if (newValue != 0)
             {
                 _possibleValues.Clear();
                 _possibleValues.Add(newValue);
@@ -80,8 +74,8 @@ namespace OmegaSudoku.Models
         }
 
         public int GetPossibilitesCount()
-        { 
-            return _possibleValues.Count; 
+        {
+            return _possibleValues.Count;
         }
 
         public HashSet<int> GetPossibilities() { return _possibleValues; }

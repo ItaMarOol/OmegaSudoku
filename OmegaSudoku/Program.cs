@@ -1,10 +1,6 @@
 ﻿using OmegaSudoku.Logic;
-using OmegaSudoku.Logic.Validators;
-using OmegaSudoku.Models;
 using OmegaSudoku.Services.Input;
 using OmegaSudoku.Services.Output;
-using System;
-using System.Diagnostics;
 
 public class Program
 {
