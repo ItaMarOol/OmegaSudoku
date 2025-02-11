@@ -131,7 +131,7 @@ namespace OmegaSudoku.Services.Output
         public void ShowWelcomeMessage()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Welcome to Itamar's Omega Sudoku!");
+            Console.WriteLine("Welcome to Itamar's Omega Sudoku solver!");
             Console.ResetColor();
         }
 
