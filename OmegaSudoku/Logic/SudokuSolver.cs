@@ -99,9 +99,10 @@ namespace OmegaSudoku.Logic
             HiddenPairsHeuristic hiddenPairsHeuristic = new HiddenPairsHeuristic();
 
             changeFlag |= nakedPairsHeuristic.ApplyHeuristic(board);  // updates all the board cells possibilties by sudoku 'naked pair' heuristic.
-            board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
             changeFlag |= hiddenSinglesHeuristic.ApplyHeuristic(board); // updates all the board cells possibilties by sudoku 'hidden singles' heuristic.
-            changeFlag |= hiddenPairsHeuristic.ApplyHeuristic(board); // updates all the board cells possibilties by sudoku 'hidden pairs' heuristic.
+            board.UpdateAllCellsPossibilities(); // updates all the board cells possibilties by sudoku rules.
+            if (board.BoardSize <= SudokuConstants.MaxHiddenPairsBoardSize) // applying hidden pairs heuristics only for pretty small boards (for better optimization)
+                changeFlag |= hiddenPairsHeuristic.ApplyHeuristic(board); // updates all the board cells possibilties by sudoku 'hidden pairs' heuristic.
 
             return changeFlag;
         }

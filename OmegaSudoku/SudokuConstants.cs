@@ -13,6 +13,7 @@
         public const int MinCellValue = 1; // minimum cell value
         public static int MaxCellValue = BoardSize; // maximum cell value (equals to the board size)
 
+        public const int MaxHiddenPairsBoardSize = 16; // maximum board size for applying hidden pairs heuristic (above this size it would increase the solving time)
         public const char AsciiDigitDiff = '0'; // ascii digit that represents the differenece between integer values and their ascii values
 
 

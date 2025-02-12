@@ -107,24 +107,43 @@ namespace OmegaSudoku.Logic.Validators
         /// <returns>The duplicated value if found. else - (-1).</returns>
         private static int GetDuplicatedInputValue(string input)
         {
-            int row, col;
+            int value, row, col;
             int boardSize = (int)Math.Sqrt(input.Length);
-            List<int> seenValues = new List<int>();
-            for (row = 0; row < boardSize; row++)
-            {
-                for (col = 0; col < boardSize; col++)
-                {
-                    int checkedValue = input[row * boardSize + col] - SudokuConstants.AsciiDigitDiff;
-                    if (checkedValue != 0)
-                    {
-                        if (!seenValues.Contains(checkedValue))
-                            seenValues.Add(checkedValue);
-                        else
-                            return checkedValue;
-                    }
+            int blockSize = (int)Math.Sqrt(boardSize);
+            HashSet<int> seenInRow = new HashSet<int>();
+            HashSet<int> seenInCol = new HashSet<int>();
+            HashSet<int> seenInBox = new HashSet<int>();
 
+            // Check each value
+            for (value = 1; value <= boardSize; value++)
+            {
+                seenInRow.Clear();
+                seenInCol.Clear();
+                seenInBox.Clear();
+
+                for (row = 0; row < boardSize; row++)
+                {
+                    for (col = 0; col < boardSize; col++)
+                    {
+                        int checkedValue = input[row * boardSize + col] - SudokuConstants.AsciiDigitDiff;
+
+                        if (value == checkedValue)
+                        {
+                            // Check row
+                            if (!seenInRow.Add(row))
+                                return checkedValue;
+
+                            // Check column
+                            if (!seenInCol.Add(col))
+                                return checkedValue;
+
+                            // Check box
+                            int boxIndex = (row / blockSize) * blockSize + (col / blockSize);
+                            if (!seenInBox.Add(boxIndex))
+                                return checkedValue;
+                        }
+                    }
                 }
-                seenValues.Clear();
             }
             return -1;
         }
