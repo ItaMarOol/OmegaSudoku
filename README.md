@@ -1,12 +1,14 @@
 # Itamar's Omega Sudoku solver
 Welcome to Itamar's Omega Sudoku solver!  
-This sudoku solver is able to solve every 1x1 - 25x25 sudoku board (that is perfect squared) fast.  
+This Sudoku solver is able to solve every 1x1 - 25x25 sudoku board (that is a perfect square) fast.  
 It also able to detect invalid boards and unsolvable boards.
 
 ## Features
+- Solve sudoku boards through CLI or file input
+- Support for boards from 1x1 - 25x25 (perfect squares only)
+- Fast solving using multiple solving strategies
+- Detection of invalid and unsolvable boards
 
-- Solve a sudoku board through CLI
-- Solve a sudoku board through a file
 
 
 ## Solving Algorithm
@@ -14,14 +16,19 @@ It also able to detect invalid boards and unsolvable boards.
 This solver uses a brute-force approach optimized with Sudoku heuristics to improve efficiency and get a solution faster.
 
 ### Heuristics
-To optimize the board solving process, this solver is using 4 basic but efficient sudoku heuristics (tactics):
-- **Naked singels:** If a cell has only one possible number, it must be that number.
+To optimize the board solving process, this solver is using a few basic but efficient sudoku heuristics (tactics):
+- **Basic possibilities elimination:** If a number already appears in a row, column, or box, then that number cannot be a possibility for any empty cell in the same row, column, or box.
+- **Naked singles:** If a cell has only one possible number, it must be that number.
 
-- **Hidden singels:** If a number can only go in one specific cell within a row, column, or box, it must be placed there.
+- **Hidden singles:** If a number can only go in one specific cell within a row, column, or box, it must be placed there.
 
 - **Naked pairs:** If two cells in a row, column, or box can only contain the same two numbers, other numbers in those cells are eliminated.
 
 - **Hidden pairs:** If two numbers only appear in two specific cells within a row, column, or box, then other possibilities in those cells are eliminated.
+
+- **Minimum possibilities selection:** When brute-forcing, select the empty cell with the minimum possible values to try.
+
+
 
 ## How to use the solver
 #### **Download and open the project:**
@@ -53,8 +60,8 @@ After attempting to solve, the program will show the initial board, the solved b
 ## Running Tests
 
 There are many tests for: 
- - Regualr sudoku puzzels in different sizes and difficulties
- - Special sudoku puzzels (empty / unsolvable)
+ - Regular sudoku puzzles in different sizes and difficulties
+ - Special sudoku puzzles (empty / unsolvable)
  - Sudoku board validations
  - User input validations
 
