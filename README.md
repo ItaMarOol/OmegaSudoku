@@ -34,11 +34,11 @@ Clone the project to your local machine:
 - Navigate to the cloned project folder and open the .sln (solution) file.
 - Ensure that .NET 8.0 is selected as the target framework.
 
-#### **Build and Run the Application (in Visual Studio):**
+#### **Build and Run the program (in Visual Studio):**
 - Make sure the project is set as the Startup Project
-- Click `Run` or press `F5` to start in Debug mode.
+- Click `Run` or press `F5` to start in Debug mode (for better results, run on `Release` mode).
 
-After running the application, you should see a menu with a few different options. Select your wanted action and follow the instructions.
+After running the program, you should see a menu with a few different options. Select your wanted action and follow the instructions.
 
 
 ![Image](https://github.com/user-attachments/assets/126b558a-9c74-49cd-9738-eabc95e865f9)
@@ -57,6 +57,8 @@ There are many tests for:
  - Special sudoku puzzels (empty / unsolvable)
  - Sudoku board validations
  - User input validations
+
+
 To run the tests, click `Test` → `Run All Tests` 
 or press `Ctrl+R, A`
 
